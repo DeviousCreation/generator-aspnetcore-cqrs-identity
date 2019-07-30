@@ -1,0 +1,1 @@
+# generator-aspnetcore-cqrs-identity
