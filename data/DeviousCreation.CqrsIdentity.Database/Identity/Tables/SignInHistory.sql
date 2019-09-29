@@ -1,0 +1,7 @@
+﻿CREATE TABLE [Identity].[SignInHistory]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+	[UserId] UNIQUEIDENTIFIER NOT NULL, 
+    [WhenHappened] DATETIME2 NOT NULL, 
+    [SignInHistoryType] INT NOT NULL
+)
