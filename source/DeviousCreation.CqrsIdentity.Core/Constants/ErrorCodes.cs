@@ -11,6 +11,9 @@ namespace DeviousCreation.CqrsIdentity.Core.Constants
         AccountCannotBeLocked,
         UserIsAlreadyVerified,
         UserIsAlreadyExists,
-        EmailAddressInUse
+        EmailAddressInUse,
+        RoleAlreadyExists,
+        RoleInUse,
+        RoleNotFound,
     }
 }

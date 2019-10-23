@@ -41,7 +41,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
         {
             var whenHappened = this._instant.ToDateTimeUtc();
             var userMaybe =
-                await this._userRepository.FindByUserBySecurityToken(request.Token, whenHappened);
+                await this._userRepository.FindByUserBySecurityToken(request.Token, whenHappened, cancellationToken);
 
             if (userMaybe.HasNoValue)
             {

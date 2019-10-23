@@ -24,7 +24,7 @@ namespace DeviousCreation.CqrsIdentity.Web.Features.UserManagement.AddUser
 
         public async Task<IActionResult> AddUser(AddUserModel model)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 var result = this._mediator.Send(new CreateUserCommand(model.EmailAddress, model.Username, model.IsLockable));
             }

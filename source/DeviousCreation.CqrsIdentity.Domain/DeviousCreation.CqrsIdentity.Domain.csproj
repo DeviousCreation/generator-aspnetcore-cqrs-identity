@@ -17,6 +17,7 @@
     <PackageReference Include="NodaTime" Version="2.4.6" />
     <PackageReference Include="ResultMonad" Version="1.0.1" />
     <PackageReference Include="FluentValidation" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -29,10 +30,4 @@
     <ProjectReference Include="..\DeviousCreation.CqrsIdentity.Queries\DeviousCreation.CqrsIdentity.Queries.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Reference Include="Microsoft.Extensions.Options">
-      <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.options\2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>

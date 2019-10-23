@@ -47,7 +47,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
         {
             var whenHappened = this._clock.GetCurrentInstant().ToDateTimeUtc();
             var userResult =
-                await this._userRepository.FindByUserBySecurityToken(request.Token, whenHappened);
+                await this._userRepository.FindByUserBySecurityToken(request.Token, whenHappened, cancellationToken);
             if (userResult.HasNoValue)
             {
                 return ResultWithError.Fail(new ErrorData(ErrorCodes.UserNotFound));

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DeviousCreation.CqrsIdentity.Queries.Models;
 
 namespace DeviousCreation.CqrsIdentity.Queries.Contracts
 {
@@ -13,13 +14,5 @@ namespace DeviousCreation.CqrsIdentity.Queries.Contracts
             CancellationToken cancellationToken);
     }
 
-    public sealed class StatusCheckModel
-    {
-        public StatusCheckModel(bool isPresent)
-        {
-            this.IsPresent = isPresent;
-        }
-
-        public bool IsPresent { get; }
-    }
+    
 }
