@@ -1,3 +1,5 @@
+// TOKEN_COPYRIGHT_TEXT
+
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,40 +14,43 @@ using ResultMonad;
 
 namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.RoleAggregate
 {
-    public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Result<CreateRoleCommandResult, ErrorData>>
+    public class
+        CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Result<CreateRoleCommandResult, ErrorData>>
     {
-        private readonly IRoleRepository _roleRepository;
         private readonly IRoleQueries _roleQueries;
+        private readonly IRoleRepository _roleRepository;
 
         public CreateRoleCommandHandler(IRoleRepository roleRepository, IRoleQueries roleQueries)
         {
-            _roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
-            _roleQueries = roleQueries ?? throw new ArgumentNullException(nameof(roleQueries));
+            this._roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
+            this._roleQueries = roleQueries ?? throw new ArgumentNullException(nameof(roleQueries));
         }
 
-        public async Task<Result<CreateRoleCommandResult, ErrorData>> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+        public async Task<Result<CreateRoleCommandResult, ErrorData>> Handle(
+            CreateRoleCommand request, CancellationToken cancellationToken)
         {
             var result = await this.Process(request, cancellationToken);
             var dbResult = await this._roleRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
             if (!dbResult)
             {
-                return Result.Fail<CreateRoleCommandResult, ErrorData>(new ErrorData(ErrorCodes.SavingChanges,
-                    "Failed To Save Database"));
+                return Result.Fail<CreateRoleCommandResult, ErrorData>(new ErrorData(
+                    ErrorCodes.SavingChanges, "Failed To Save Database"));
             }
 
             return result;
         }
 
-        private async Task<Result<CreateRoleCommandResult, ErrorData>> Process(CreateRoleCommand request, CancellationToken cancellationToken)
+        private async Task<Result<CreateRoleCommandResult, ErrorData>> Process(
+            CreateRoleCommand request, CancellationToken cancellationToken)
         {
-            var presenceResult = await _roleQueries.CheckForPresenceOfRoleByName(request.Name, cancellationToken);
+            var presenceResult = await this._roleQueries.CheckForPresenceOfRoleByName(request.Name, cancellationToken);
             if (presenceResult.IsPresent)
             {
                 return Result.Fail<CreateRoleCommandResult, ErrorData>(new ErrorData(ErrorCodes.RoleAlreadyExists));
             }
 
-            var role = _roleRepository.Add(new Role(Guid.NewGuid(), request.Name));
+            var role = this._roleRepository.Add(new Role(Guid.NewGuid(), request.Name));
 
             return Result.Ok<CreateRoleCommandResult, ErrorData>(new CreateRoleCommandResult(role.Id));
         }

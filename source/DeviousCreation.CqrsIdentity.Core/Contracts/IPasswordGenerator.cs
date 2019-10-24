@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// TOKEN_COPYRIGHT_TEXT
 
 namespace DeviousCreation.CqrsIdentity.Core.Contracts
 {

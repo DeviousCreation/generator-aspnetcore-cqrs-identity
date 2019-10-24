@@ -4,14 +4,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-<ItemGroup>
-    <Compile Include="..\..\shared\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\..\shared\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="8.4.0" />
     <PackageReference Include="MediatR" Version="7.0.0" />
@@ -27,5 +19,7 @@
     <ProjectReference Include="..\DeviousCreation.CqrsIdentity.Core\DeviousCreation.CqrsIdentity.Core.csproj" />
     <ProjectReference Include="..\DeviousCreation.CqrsIdentity.Domain\DeviousCreation.CqrsIdentity.Domain.csproj" />
   </ItemGroup>
+
+  <Import Project="..\..\shared\DeviousCreation.CqrsIdentity.Shared\DeviousCreation.CqrsIdentity.Shared.projitems" Label="Shared" />
 
 </Project>

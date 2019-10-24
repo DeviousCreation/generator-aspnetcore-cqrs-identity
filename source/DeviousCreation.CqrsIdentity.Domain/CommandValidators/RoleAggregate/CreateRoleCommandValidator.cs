@@ -1,3 +1,5 @@
+// TOKEN_COPYRIGHT_TEXT
+
 using DeviousCreation.CqrsIdentity.Core.Constants;
 using DeviousCreation.CqrsIdentity.Domain.Commands.RoleAggregate;
 using FluentValidation;

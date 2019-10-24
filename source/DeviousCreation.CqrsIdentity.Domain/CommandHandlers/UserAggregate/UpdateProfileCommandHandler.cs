@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core;
@@ -28,8 +28,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 
             if (!dbResult)
             {
-                return ResultWithError.Fail(new ErrorData(ErrorCodes.SavingChanges,
-                    "Failed To Save Database"));
+                return ResultWithError.Fail(new ErrorData(
+                    ErrorCodes.SavingChanges, "Failed To Save Database"));
             }
 
             return result;

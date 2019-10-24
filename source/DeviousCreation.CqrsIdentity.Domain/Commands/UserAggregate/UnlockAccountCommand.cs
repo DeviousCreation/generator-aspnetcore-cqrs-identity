@@ -1,4 +1,6 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using DeviousCreation.CqrsIdentity.Core;
 using MediatR;
 using ResultMonad;

@@ -1,13 +1,11 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 
 namespace DeviousCreation.CqrsIdentity.Domain.CommandResults.UserAggregate
 {
     public sealed class LoginCommandResult
     {
-        public Guid UserId { get; }
-        public LoginResultStatus Status { get; }
-        
-
         public LoginCommandResult(Guid userId, LoginResultStatus status)
         {
             this.UserId = userId;
@@ -19,7 +17,11 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandResults.UserAggregate
         {
             Unconfirmed = 1,
             PasswordExpired = 2,
-            Valid = 4
+            Valid = 4,
         }
+
+        public Guid UserId { get; }
+
+        public LoginResultStatus Status { get; }
     }
 }

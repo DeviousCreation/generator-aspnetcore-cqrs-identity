@@ -1,10 +1,12 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Linq;
 using DeviousCreation.CqrsIdentity.Core.Constants;
 using DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate;
 using Xunit;
 
-namespace DeviousCreation.CqrsIdentity.Domain.Tests.AggregatesModel.UserAggregate
+namespace DeviousCreation.CqrsIdentity.Tests.Domain.AggregatesModel.UserAggregate
 {
     public class UserTests
     {
@@ -26,8 +28,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.Tests.AggregatesModel.UserAggregat
             Assert.Equal(isLockable, user.IsLockable);
             Assert.Equal(whenCreated, user.WhenCreated);
             var lastPassword = user.PasswordHistories.Last();
-            Assert.Equal(password,lastPassword.PasswordHash);
-            Assert.Equal(whenCreated,lastPassword.WhenUsed);
+            Assert.Equal(password, lastPassword.PasswordHash);
+            Assert.Equal(whenCreated, lastPassword.WhenUsed);
 
             foreach (var prop in user.GetType().GetProperties().Where(x => x.PropertyType.Name == "IReadOnlyList`1"))
             {
@@ -39,7 +41,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.Tests.AggregatesModel.UserAggregat
         [Fact]
         public void Constructor_WhenPrivateIsCalled_ObjectIsCreated()
         {
-            var user = (User) Activator.CreateInstance(typeof(User), true);
+            var user = (User)Activator.CreateInstance(typeof(User), true);
             Assert.NotNull(user);
 
             foreach (var prop in user.GetType().GetProperties().Where(x => x.PropertyType.Name == "IReadOnlyList`1"))
@@ -107,7 +109,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.Tests.AggregatesModel.UserAggregat
             Assert.Null(user.WhenLocked);
             Assert.Null(user.DomainEvents);
         }
-        
+
         [Fact]
         public void CheckAndApplyAccountLock_GivenUserIsNotLockable_AccountIsNotLocked()
         {
@@ -244,7 +246,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.Tests.AggregatesModel.UserAggregat
             user.RandomizePassword(password, whenChanged);
             Assert.Equal(password, user.PasswordHash);
             Assert.Equal(whenChanged, user.WhenPasswordChanged);
-            Assert.DoesNotContain(user.PasswordHistories, history => history.PasswordHash == password && history.WhenUsed == whenChanged );
+            Assert.DoesNotContain(user.PasswordHistories, history => history.PasswordHash == password && history.WhenUsed == whenChanged);
         }
 
         [Fact]

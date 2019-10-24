@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core.Settings;
 using DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -13,8 +12,8 @@ namespace DeviousCreation.CqrsIdentity.Web.Features.Account.Registration
 {
     public class RegistrationController : Controller
     {
-        private readonly IMediator _mediator;
         private readonly IdentitySettings _identitySettings;
+        private readonly IMediator _mediator;
 
         public RegistrationController(IMediator mediator, IOptions<IdentitySettings> identitySettings)
         {
@@ -38,9 +37,11 @@ namespace DeviousCreation.CqrsIdentity.Web.Features.Account.Registration
         {
             if (this.ModelState.IsValid)
             {
-                var res = await this._mediator.Send(new CreateUserCommand(model.EmailAddress, model.Username, this._identitySettings.RegisteredAccountsLock));
+                var res = await this._mediator.Send(new CreateUserCommand(model.EmailAddress, model.Username,
+                    this._identitySettings.RegisteredAccountsLock));
                 return this.RedirectToAction("PostRegistration", "Registration");
             }
+
             return this.View();
         }
 
@@ -49,20 +50,4 @@ namespace DeviousCreation.CqrsIdentity.Web.Features.Account.Registration
             return this.View();
         }
     }
-
-    public class RegisterModel
-    {
-        public string EmailAddress { get; set; }
-        public string Username { get; set; }
-    }
-
-    public class RegisterModelValidator : AbstractValidator<RegisterModel>
-    {
-        public RegisterModelValidator()
-        {
-            this.RuleFor(x => x.Username).NotEmpty();
-            this.RuleFor(x => x.EmailAddress).EmailAddress().NotEmpty();
-        }
-    }
-
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using DeviousCreation.CqrsIdentity.Core;
 using MediatR;
 using ResultMonad;
@@ -13,8 +15,11 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate
             this.FirstName = firstName;
             this.LastName = lastName;
         }
+
         public string FirstName { get; }
+
         public string LastName { get; }
+
         public Guid UserId { get; set; }
     }
 }

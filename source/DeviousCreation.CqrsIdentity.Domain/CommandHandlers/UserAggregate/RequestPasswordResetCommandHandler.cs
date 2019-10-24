@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core;
@@ -10,6 +10,7 @@ using DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate;
 using DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate;
 using MaybeMonad;
 using MediatR;
+using Microsoft.Extensions.Options;
 using NodaTime;
 using ResultMonad;
 
@@ -17,9 +18,21 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 {
     public class RequestPasswordResetCommandHandler : IRequestHandler<RequestPasswordResetCommand, ResultWithError<ErrorData>>
     {
-        private Instant _instant;
-        private IdentitySettings _identitySettings;
-        private IUserRepository _userRepository;
+        private readonly IClock _clock;
+        private readonly IdentitySettings _identitySettings;
+        private readonly IUserRepository _userRepository;
+
+        public RequestPasswordResetCommandHandler(IClock clock, IOptions<IdentitySettings> identitySettings, IUserRepository userRepository)
+        {
+            if (identitySettings == null)
+            {
+                throw new ArgumentNullException(nameof(identitySettings));
+            }
+
+            this._clock = clock ?? throw new ArgumentNullException(nameof(clock));
+            this._identitySettings = identitySettings.Value;
+            this._userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+        }
 
         public async Task<ResultWithError<ErrorData>> Handle(RequestPasswordResetCommand request, CancellationToken cancellationToken)
         {
@@ -28,8 +41,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 
             if (!dbResult)
             {
-                return ResultWithError.Fail(new ErrorData(ErrorCodes.SavingChanges,
-                    "Failed To Save Database"));
+                return ResultWithError.Fail(new ErrorData(
+                    ErrorCodes.SavingChanges, "Failed To Save Database"));
             }
 
             return result;
@@ -37,7 +50,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 
         private async Task<ResultWithError<ErrorData>> Process(RequestPasswordResetCommand request, CancellationToken cancellationToken)
         {
-            var whenHappened = this._instant.ToDateTimeUtc();
+            var whenHappened = this._clock.GetCurrentInstant().ToDateTimeUtc();
             Maybe<IUser> userMaybe;
             if (this._identitySettings.UseEmailAddressAsUsername)
             {
@@ -57,13 +70,12 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 
             if (user.IsVerified)
             {
-                
                 return ResultWithError.Fail(new ErrorData(
-                    ErrorCodes.UserIsAlreadyVerified
-                    ));
+                    ErrorCodes.UserIsAlreadyVerified));
             }
 
-            var token = user.GenerateNewPasswordResetToken(whenHappened,
+            var token = user.GenerateNewPasswordResetToken(
+                whenHappened,
                 whenHappened.AddHours(this._identitySettings.PasswordTokenLifetime));
 
             this._userRepository.Update(user);

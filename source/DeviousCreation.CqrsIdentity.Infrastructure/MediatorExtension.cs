@@ -1,3 +1,5 @@
+// TOKEN_COPYRIGHT_TEXT
+
 using System.Linq;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core.Domain;

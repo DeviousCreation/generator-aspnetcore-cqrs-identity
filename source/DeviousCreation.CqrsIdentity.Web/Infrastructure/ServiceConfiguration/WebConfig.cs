@@ -1,4 +1,6 @@
-﻿using DeviousCreation.CqrsIdentity.Web.Features.Account.SignIn;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using DeviousCreation.CqrsIdentity.Web.Features.Account.SignIn;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

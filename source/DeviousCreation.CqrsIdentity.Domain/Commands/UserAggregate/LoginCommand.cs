@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿// TOKEN_COPYRIGHT_TEXT
+
 using DeviousCreation.CqrsIdentity.Core;
 using DeviousCreation.CqrsIdentity.Domain.CommandResults.UserAggregate;
 using MediatR;
@@ -17,6 +16,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate
         }
 
         public string Credential { get; }
+
         public string Password { get; }
     }
 }

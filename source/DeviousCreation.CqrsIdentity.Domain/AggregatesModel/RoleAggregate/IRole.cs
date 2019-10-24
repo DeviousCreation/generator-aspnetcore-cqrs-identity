@@ -1,4 +1,6 @@
-﻿using DeviousCreation.CqrsIdentity.Core.Contracts;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using DeviousCreation.CqrsIdentity.Core.Contracts;
 
 namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.RoleAggregate
 {
@@ -7,6 +9,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.RoleAggregate
         string Name { get; }
 
         void FlagAsDeleted();
+
         void UpdateName(string name);
     }
 }

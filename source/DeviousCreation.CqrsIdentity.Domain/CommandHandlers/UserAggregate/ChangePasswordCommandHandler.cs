@@ -1,4 +1,6 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core;

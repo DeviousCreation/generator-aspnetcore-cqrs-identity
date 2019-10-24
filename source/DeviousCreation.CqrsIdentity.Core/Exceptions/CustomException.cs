@@ -1,3 +1,5 @@
+// TOKEN_COPYRIGHT_TEXT
+
 using System;
 
 namespace DeviousCreation.CqrsIdentity.Core.Exceptions

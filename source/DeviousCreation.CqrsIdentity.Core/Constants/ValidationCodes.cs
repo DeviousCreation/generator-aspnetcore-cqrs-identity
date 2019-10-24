@@ -1,3 +1,5 @@
+// TOKEN_COPYRIGHT_TEXT
+
 namespace DeviousCreation.CqrsIdentity.Core.Constants
 {
     public sealed class ValidationCodes

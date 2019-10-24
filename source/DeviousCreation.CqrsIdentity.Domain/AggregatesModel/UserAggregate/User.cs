@@ -1,7 +1,8 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DeviousCreation.CqrsIdentity.Core.Constants;
 using DeviousCreation.CqrsIdentity.Core.Domain;
 using DeviousCreation.CqrsIdentity.Domain.Events;
@@ -15,14 +16,6 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
         private readonly List<SignInHistory> _signInHistories;
         private readonly List<UserRole> _userRoles;
 
-        private User()
-        {
-            this._securityTokenMappings = new List<SecurityTokenMapping>();
-            this._passwordHistories = new List<PasswordHistory>();
-            this._signInHistories = new List<SignInHistory>();
-            this._userRoles = new List<UserRole>();
-        }
-
         public User(Guid id, string emailAddress, string username, string passwordHash, bool isLockable, DateTime whenCreated)
             : this()
         {
@@ -34,28 +27,36 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
             this.WhenCreated = whenCreated;
         }
 
+        private User()
+        {
+            this._securityTokenMappings = new List<SecurityTokenMapping>();
+            this._passwordHistories = new List<PasswordHistory>();
+            this._signInHistories = new List<SignInHistory>();
+            this._userRoles = new List<UserRole>();
+        }
+
         public string EmailAddress { get; private set; }
-        
+
         public string Username { get; private set; }
-        
+
         public string PasswordHash { get; private set; }
-        
+
         public DateTime? WhenVerified { get; private set; }
-        
+
         public bool IsVerified => this.WhenVerified.HasValue;
-        
+
         public DateTime? WhenPasswordChanged { get; private set; }
-        
+
         public bool IsLockable { get; private set; }
-        
+
         public int SignInAttempts { get; private set; }
-        
+
         public DateTime? WhenLocked { get; private set; }
-        
+
         public bool IsLocked => this.WhenLocked.HasValue;
-        
+
         public DateTime? WhenSignedIn { get; private set; }
-        
+
         public Profile Profile { get; private set; }
 
         public IReadOnlyList<SecurityTokenMapping> SecurityTokenMappings => this._securityTokenMappings.AsReadOnly();
@@ -182,7 +183,5 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
         {
             this.WhenVerified = whenHappened;
         }
-
-
     }
 }

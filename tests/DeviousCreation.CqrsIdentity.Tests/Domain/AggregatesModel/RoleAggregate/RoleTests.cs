@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using DeviousCreation.CqrsIdentity.Domain.AggregatesModel.RoleAggregate;
 using Xunit;
 
-namespace DeviousCreation.CqrsIdentity.Domain.Tests.AggregatesModel.RoleAggregate
+namespace DeviousCreation.CqrsIdentity.Tests.Domain.AggregatesModel.RoleAggregate
 {
     public class RoleTests
     {

@@ -1,4 +1,6 @@
-﻿using DeviousCreation.CqrsIdentity.Core.Contracts;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using DeviousCreation.CqrsIdentity.Core.Contracts;
 using EzPasswordValidator.Checks;
 
 namespace DeviousCreation.CqrsIdentity.Core

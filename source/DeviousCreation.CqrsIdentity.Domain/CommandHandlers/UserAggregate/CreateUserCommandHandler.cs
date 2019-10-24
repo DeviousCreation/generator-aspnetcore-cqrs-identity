@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core;
@@ -48,15 +48,15 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 
             if (!dbResult)
             {
-                return ResultWithError.Fail(new ErrorData(ErrorCodes.SavingChanges,
-                    "Failed To Save Database"));
+                return ResultWithError.Fail(new ErrorData(
+                    ErrorCodes.SavingChanges, "Failed To Save Database"));
             }
 
             return result;
         }
 
-        private async Task<ResultWithError<ErrorData>> Process(CreateUserCommand request,
-            CancellationToken cancellationToken)
+        private async Task<ResultWithError<ErrorData>> Process(
+            CreateUserCommand request, CancellationToken cancellationToken)
         {
             var statusCheck = await this._userQueries.CheckForPresenceOfUserByUsername(
                 this._identitySettings.UseEmailAddressAsUsername ? request.EmailAddress : request.Username, cancellationToken);
@@ -78,8 +78,6 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
             var user = new User(Guid.NewGuid(), request.EmailAddress, request.Username, this._passwordHasher.HashPassword(this._passwordGenerator.Generate()), request.IsLockable,  this._clock.GetCurrentInstant().ToDateTimeUtc());
             this._userRepository.Add(user);
             return ResultWithError.Ok<ErrorData>();
-
         }
-
     }
 }

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// TOKEN_COPYRIGHT_TEXT
+
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate;
 using MediatR;

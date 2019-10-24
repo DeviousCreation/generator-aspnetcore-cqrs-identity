@@ -1,4 +1,6 @@
-﻿using DeviousCreation.CqrsIdentity.Core;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using DeviousCreation.CqrsIdentity.Core;
 using MediatR;
 using ResultMonad;
 
@@ -13,7 +15,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate
         }
 
         public string Token { get; }
-        
+
         public string NewPassword { get; }
     }
 }

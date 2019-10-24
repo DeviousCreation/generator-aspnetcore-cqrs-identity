@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeviousCreation.CqrsIdentity.Web.Features.Error

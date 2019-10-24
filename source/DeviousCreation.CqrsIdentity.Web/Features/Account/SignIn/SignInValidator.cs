@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using DeviousCreation.CqrsIdentity.Core.Settings;
 using FluentValidation;
 using Microsoft.Extensions.Options;
@@ -10,7 +9,6 @@ namespace DeviousCreation.CqrsIdentity.Web.Features.Account.SignIn
 {
     public class SignInValidator : AbstractValidator<SignInModel>
     {
-        
         public SignInValidator(IOptions<IdentitySettings> identitySettings)
         {
             if (identitySettings == null)

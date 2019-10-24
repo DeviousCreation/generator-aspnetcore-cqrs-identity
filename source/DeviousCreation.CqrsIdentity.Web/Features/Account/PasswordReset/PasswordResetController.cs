@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// TOKEN_COPYRIGHT_TEXT
+
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate;
 using MediatR;
@@ -39,7 +38,7 @@ namespace DeviousCreation.CqrsIdentity.Web.Features.Account.PasswordReset
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 var result = await this._mediator.Send(new ResetPasswordCommand(model.Token, model.NewPassword));
                 if (result.IsSuccess)
@@ -50,17 +49,5 @@ namespace DeviousCreation.CqrsIdentity.Web.Features.Account.PasswordReset
 
             return this.View();
         }
-
-    }
-
-    public class RequestPasswordResetModel
-    {
-        public string Credential { get; set; }
-    }
-
-    public class ResetPasswordModel
-    {
-        public string Token { get; set; }
-        public string NewPassword { get; set; }
     }
 }

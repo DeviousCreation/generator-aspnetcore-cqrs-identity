@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace DeviousCreation.CqrsIdentity.Web.Features.Home
 {

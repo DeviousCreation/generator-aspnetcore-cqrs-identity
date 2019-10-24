@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// TOKEN_COPYRIGHT_TEXT
 
 namespace DeviousCreation.CqrsIdentity.Core.Constants
 {
     public enum SecurityTokenPurpose
     {
         AccountConfirmation,
-        PasswordReset
+        PasswordReset,
     }
 }

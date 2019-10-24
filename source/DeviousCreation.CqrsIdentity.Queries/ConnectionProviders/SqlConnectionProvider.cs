@@ -1,6 +1,9 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Data;
 using System.Data.SqlClient;
+using DeviousCreation.CqrsIdentity.Queries.Contracts;
 using Microsoft.Extensions.Configuration;
 
 namespace DeviousCreation.CqrsIdentity.Queries.ConnectionProviders

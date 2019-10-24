@@ -1,4 +1,7 @@
-﻿using DeviousCreation.CqrsIdentity.Queries.ConnectionProviders;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using DeviousCreation.CqrsIdentity.Queries.ConnectionProviders;
+using DeviousCreation.CqrsIdentity.Queries.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using DeviousCreation.CqrsIdentity.Core.Domain;
 
 namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.RoleAggregate

@@ -3,13 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="..\..\Shared\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\..\Shared\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.60.6" />
@@ -20,5 +13,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <Import Project="..\..\shared\DeviousCreation.CqrsIdentity.Shared\DeviousCreation.CqrsIdentity.Shared.projitems" Label="Shared" />
 
 </Project>

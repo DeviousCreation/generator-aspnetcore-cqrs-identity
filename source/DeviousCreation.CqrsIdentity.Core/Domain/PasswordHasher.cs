@@ -1,4 +1,6 @@
-﻿using DeviousCreation.CqrsIdentity.Core.Contracts;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using DeviousCreation.CqrsIdentity.Core.Contracts;
 
 namespace DeviousCreation.CqrsIdentity.Core.Domain
 {

@@ -1,10 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 
 namespace DeviousCreation.CqrsIdentity.Domain.CommandResults.UserAggregate
 {
-    class CreateUserCommandResult
+    public class CreateUserCommandResult
     {
+        public CreateUserCommandResult(Guid userId)
+        {
+            this.UserId = userId;
+        }
+
+        public Guid UserId { get; }
     }
 }

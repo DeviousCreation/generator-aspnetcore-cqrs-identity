@@ -1,3 +1,5 @@
+// TOKEN_COPYRIGHT_TEXT
+
 using System;
 using DeviousCreation.CqrsIdentity.Core;
 using MediatR;
@@ -10,8 +12,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.RoleAggregate
         public DeleteRoleCommand(Guid roleId)
         {
             this.RoleId = roleId;
-
         }
+
         public Guid RoleId { get; }
     }
 }

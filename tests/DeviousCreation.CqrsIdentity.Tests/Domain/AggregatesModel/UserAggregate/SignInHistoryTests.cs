@@ -1,9 +1,11 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using DeviousCreation.CqrsIdentity.Core.Constants;
 using DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate;
 using Xunit;
 
-namespace DeviousCreation.CqrsIdentity.Domain.Tests.AggregatesModel.UserAggregate
+namespace DeviousCreation.CqrsIdentity.Tests.Domain.AggregatesModel.UserAggregate
 {
     public class SignInHistoryTests
     {

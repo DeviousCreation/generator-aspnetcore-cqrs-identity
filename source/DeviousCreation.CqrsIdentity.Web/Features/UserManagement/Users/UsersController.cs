@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DeviousCreation.CqrsIdentity.Queries.Contracts;
+﻿// TOKEN_COPYRIGHT_TEXT
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeviousCreation.CqrsIdentity.Web.Features.UserManagement.Users
@@ -13,6 +10,5 @@ namespace DeviousCreation.CqrsIdentity.Web.Features.UserManagement.Users
         {
             return this.View();
         }
-
     }
 }

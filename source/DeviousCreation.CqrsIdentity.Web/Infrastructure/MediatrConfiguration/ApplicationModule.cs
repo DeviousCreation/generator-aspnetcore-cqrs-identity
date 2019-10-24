@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using Autofac;
 
 namespace DeviousCreation.CqrsIdentity.Web.Infrastructure.MediatrConfiguration
 {

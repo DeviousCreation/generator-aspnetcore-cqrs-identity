@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// TOKEN_COPYRIGHT_TEXT
+
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate;
 using MediatR;
@@ -40,7 +39,8 @@ namespace DeviousCreation.CqrsIdentity.Web.Features.Account.AccountValidation
         {
             if (this.ModelState.IsValid)
             {
-                var result = await this._mediator.Send(new VerifyAccountAndSetPasswordCommand(model.Token, model.Password));
+                var result =
+                    await this._mediator.Send(new VerifyAccountAndSetPasswordCommand(model.Token, model.Password));
                 if (result.IsSuccess)
                 {
                     return this.RedirectToAction("SignIn", "SignIn");
@@ -49,26 +49,5 @@ namespace DeviousCreation.CqrsIdentity.Web.Features.Account.AccountValidation
 
             return this.View();
         }
-    }
-
-    public class AccountVerificationModel
-    {
-        public string Credential { get; set; }
-    }
-
-    public class VerifyAccountModel
-    {
-        public VerifyAccountModel()
-        {
-            
-        }
-        public VerifyAccountModel(string token)
-        {
-            Token = token;
-        }
-
-        public string Token { get; set; }
-        public string Password { get; set; }
-        public string PasswordConfirmation { get; set; }
     }
 }

@@ -4,14 +4,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-<ItemGroup>
-    <Compile Include="..\..\shared\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\..\shared\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="NodaTime" Version="2.4.6" />
@@ -29,5 +21,8 @@
     <ProjectReference Include="..\DeviousCreation.CqrsIdentity.Core\DeviousCreation.CqrsIdentity.Core.csproj" />
     <ProjectReference Include="..\DeviousCreation.CqrsIdentity.Queries\DeviousCreation.CqrsIdentity.Queries.csproj" />
   </ItemGroup>
+
+
+  <Import Project="..\..\shared\DeviousCreation.CqrsIdentity.Shared\DeviousCreation.CqrsIdentity.Shared.projitems" Label="Shared" />
 
 </Project>

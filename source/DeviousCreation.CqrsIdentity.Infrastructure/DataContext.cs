@@ -1,3 +1,5 @@
+// TOKEN_COPYRIGHT_TEXT
+
 using System;
 using System.Threading;
 using System.Threading.Tasks;

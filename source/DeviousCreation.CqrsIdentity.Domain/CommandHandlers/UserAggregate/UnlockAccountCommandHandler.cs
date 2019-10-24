@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core;
@@ -18,23 +18,18 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
     public class UnlockAccountCommandHandler : IRequestHandler<UnlockAccountCommand, ResultWithError<ErrorData>>
     {
         private readonly IUserRepository _userRepository;
-        private readonly Instant _instant;
+        private readonly IClock _clock;
         private readonly IdentitySettings _identitySettings;
 
         public UnlockAccountCommandHandler(IUserRepository userRepository, IClock clock, IOptions<IdentitySettings> identitySettings)
         {
-            if (clock == null)
-            {
-                throw new ArgumentNullException(nameof(clock));
-            }
-
             if (identitySettings == null)
             {
                 throw new ArgumentNullException(nameof(identitySettings));
             }
 
             this._userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            this._instant = clock.GetCurrentInstant();
+            this._clock = clock ?? throw new ArgumentNullException(nameof(clock));
             this._identitySettings = identitySettings.Value;
         }
 
@@ -45,8 +40,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 
             if (!dbResult)
             {
-                return ResultWithError.Fail(new ErrorData(ErrorCodes.SavingChanges,
-                    "Failed To Save Database"));
+                return ResultWithError.Fail(new ErrorData(
+                    ErrorCodes.SavingChanges, "Failed To Save Database"));
             }
 
             return result;
@@ -54,7 +49,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 
         private async Task<ResultWithError<ErrorData>> Process(UnlockAccountCommand request, CancellationToken cancellationToken)
         {
-            var whenHappened = this._instant.ToDateTimeUtc();
+            var whenHappened = this._clock.GetCurrentInstant().ToDateTimeUtc();
             var userMaybe = await this._userRepository.Find(request.UserId, cancellationToken);
             if (userMaybe.HasNoValue)
             {

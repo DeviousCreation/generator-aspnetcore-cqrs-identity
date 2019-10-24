@@ -1,3 +1,6 @@
+// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core;
@@ -15,6 +18,12 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.RoleAggregate
         private readonly IRoleRepository _roleRepository;
         private readonly IRoleQueries _roleQueries;
 
+        public UpdateRoleNameCommandHandler(IRoleRepository roleRepository, IRoleQueries roleQueries)
+        {
+            this._roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
+            this._roleQueries = roleQueries ?? throw new ArgumentNullException(nameof(roleQueries));
+        }
+
         public async Task<ResultWithError<ErrorData>> Handle(UpdateRoleNameCommand request, CancellationToken cancellationToken)
         {
             var result = await this.Process(request, cancellationToken);
@@ -31,13 +40,13 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.RoleAggregate
 
         private async Task<ResultWithError<ErrorData>> Process(UpdateRoleNameCommand request, CancellationToken cancellationToken)
         {
-            var prensenceResult = await _roleQueries.CheckForPresenceOfRoleByNameWithIdExclusion(request.Name, request.RoleId, cancellationToken);
-            if (prensenceResult.IsPresent)
+            var presenceResult = await this._roleQueries.CheckForPresenceOfRoleByNameWithIdExclusion(request.Name, request.RoleId, cancellationToken);
+            if (presenceResult.IsPresent)
             {
                 return ResultWithError.Fail(new ErrorData(ErrorCodes.RoleAlreadyExists));
             }
 
-            var roleMaybe = await _roleRepository.Find(request.RoleId, cancellationToken);
+            var roleMaybe = await this._roleRepository.Find(request.RoleId, cancellationToken);
             if (roleMaybe.HasNoValue)
             {
                 return ResultWithError.Fail(new ErrorData(ErrorCodes.RoleNotFound));
@@ -46,12 +55,10 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.RoleAggregate
             var role = roleMaybe.Value;
 
             role.UpdateName(request.Name);
-            
-            _roleRepository.Update(role);
+
+            this._roleRepository.Update(role);
 
             return ResultWithError.Ok<ErrorData>();
-
-
         }
     }
 }

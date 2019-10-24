@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 
 namespace DeviousCreation.CqrsIdentity.Web.Infrastructure.ServiceConfiguration

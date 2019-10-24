@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// TOKEN_COPYRIGHT_TEXT
+
 using DeviousCreation.CqrsIdentity.Core;
 using MediatR;
 using ResultMonad;
 
 namespace DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate
 {
-    public class CreateUserCommand :IRequest<ResultWithError<ErrorData>>
+    public class CreateUserCommand : IRequest<ResultWithError<ErrorData>>
     {
         public CreateUserCommand(string emailAddress, string username, bool isLockable)
         {
@@ -17,9 +16,9 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate
         }
 
         public string EmailAddress { get; }
-        
+
         public string Username { get; }
-        
+
         public bool IsLockable { get; }
     }
 }

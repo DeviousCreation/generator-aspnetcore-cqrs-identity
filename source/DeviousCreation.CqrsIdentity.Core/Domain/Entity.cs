@@ -1,3 +1,5 @@
+// TOKEN_COPYRIGHT_TEXT
+
 using System;
 using System.Collections.Generic;
 using DeviousCreation.CqrsIdentity.Core.Contracts;

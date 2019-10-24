@@ -1,4 +1,6 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core;
@@ -27,23 +29,23 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
             this._passwordValidator = passwordValidator ?? throw new ArgumentNullException(nameof(passwordValidator));
         }
 
-        public async Task<ResultWithError<ErrorData>> Handle(VerifyAccountAndSetPasswordCommand request,
-            CancellationToken cancellationToken)
+        public async Task<ResultWithError<ErrorData>> Handle(
+            VerifyAccountAndSetPasswordCommand request, CancellationToken cancellationToken)
         {
             var result = await this.Process(request, cancellationToken);
             var dbResult = await this._userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
             if (!dbResult)
             {
-                return ResultWithError.Fail(new ErrorData(ErrorCodes.SavingChanges,
-                    "Failed To Save Database"));
+                return ResultWithError.Fail(new ErrorData(
+                    ErrorCodes.SavingChanges, "Failed To Save Database"));
             }
 
             return result;
         }
 
-        private async Task<ResultWithError<ErrorData>> Process(VerifyAccountAndSetPasswordCommand request,
-            CancellationToken cancellationToken)
+        private async Task<ResultWithError<ErrorData>> Process(
+            VerifyAccountAndSetPasswordCommand request, CancellationToken cancellationToken)
         {
             var whenHappened = this._clock.GetCurrentInstant().ToDateTimeUtc();
             var userResult =

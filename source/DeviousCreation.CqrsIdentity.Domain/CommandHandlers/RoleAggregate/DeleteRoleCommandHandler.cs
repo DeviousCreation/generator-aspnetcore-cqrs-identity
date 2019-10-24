@@ -1,3 +1,6 @@
+// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core;
@@ -15,6 +18,12 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.RoleAggregate
         private readonly IRoleRepository _roleRepository;
         private readonly IRoleQueries _roleQueries;
 
+        public DeleteRoleCommandHandler(IRoleRepository roleRepository, IRoleQueries roleQueries)
+        {
+            this._roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
+            this._roleQueries = roleQueries ?? throw new ArgumentNullException(nameof(roleQueries));
+        }
+
         public async Task<ResultWithError<ErrorData>> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
         {
             var result = await this.Process(request, cancellationToken);
@@ -31,14 +40,14 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.RoleAggregate
 
         public async Task<ResultWithError<ErrorData>> Process(DeleteRoleCommand request, CancellationToken cancellationToken)
         {
-            var roleMaybe = await _roleRepository.Find(request.RoleId, cancellationToken);
+            var roleMaybe = await this._roleRepository.Find(request.RoleId, cancellationToken);
             if (roleMaybe.HasNoValue)
             {
                 return ResultWithError.Fail(new ErrorData(ErrorCodes.RoleNotFound));
             }
 
-            var prensenceResult = await _roleQueries.CheckForRoleUsageById(request.RoleId, cancellationToken);
-            if (prensenceResult.IsPresent)
+            var presenceResult = await this._roleQueries.CheckForRoleUsageById(request.RoleId, cancellationToken);
+            if (presenceResult.IsPresent)
             {
                 return ResultWithError.Fail(new ErrorData(ErrorCodes.RoleInUse));
             }
@@ -46,7 +55,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.RoleAggregate
             var role = roleMaybe.Value;
             role.FlagAsDeleted();
 
-            _roleRepository.Update(role);
+            this._roleRepository.Update(role);
 
             return ResultWithError.Ok<ErrorData>();
         }

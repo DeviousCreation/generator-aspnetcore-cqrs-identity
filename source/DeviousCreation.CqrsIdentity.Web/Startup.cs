@@ -1,4 +1,6 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DeviousCreation.CqrsIdentity.Web.Infrastructure.MediatrConfiguration;
@@ -17,7 +19,6 @@ namespace DeviousCreation.CqrsIdentity.Web
 {
     public class Startup
     {
-
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()

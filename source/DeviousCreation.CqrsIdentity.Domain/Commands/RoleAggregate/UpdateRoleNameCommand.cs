@@ -1,3 +1,5 @@
+// TOKEN_COPYRIGHT_TEXT
+
 using System;
 using DeviousCreation.CqrsIdentity.Core;
 using MediatR;
@@ -11,10 +13,10 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.RoleAggregate
         {
             this.RoleId = roleId;
             this.Name = name;
-
         }
-        
+
         public Guid RoleId { get; }
+
         public string Name { get; }
     }
 }

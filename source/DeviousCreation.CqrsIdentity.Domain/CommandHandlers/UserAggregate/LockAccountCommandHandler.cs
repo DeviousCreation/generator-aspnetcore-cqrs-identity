@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core;
@@ -17,21 +17,16 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
     public class LockAccountCommandHandler : IRequestHandler<LockAccountCommand, ResultWithError<ErrorData>>
     {
         private readonly IUserRepository _userRepository;
-        private readonly Instant _instant;
+        private readonly IClock _clock;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IPasswordGenerator _passwordGenerator;
 
         public LockAccountCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, IPasswordGenerator passwordGenerator, IClock clock)
         {
-            if (clock == null)
-            {
-                throw new ArgumentNullException(nameof(clock));
-            }
-
             this._userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             this._passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
             this._passwordGenerator = passwordGenerator ?? throw new ArgumentNullException(nameof(passwordGenerator));
-            this._instant = clock.GetCurrentInstant();
+            this._clock = clock ?? throw new ArgumentNullException(nameof(clock));
         }
 
         public async Task<ResultWithError<ErrorData>> Handle(LockAccountCommand request, CancellationToken cancellationToken)
@@ -41,8 +36,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 
             if (!dbResult)
             {
-                return ResultWithError.Fail(new ErrorData(ErrorCodes.SavingChanges,
-                    "Failed To Save Database"));
+                return ResultWithError.Fail(new ErrorData(
+                    ErrorCodes.SavingChanges, "Failed To Save Database"));
             }
 
             return result;
@@ -50,7 +45,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 
         private async Task<ResultWithError<ErrorData>> Process(LockAccountCommand request, CancellationToken cancellationToken)
         {
-            var whenHappened = this._instant.ToDateTimeUtc();
+            var whenHappened = this._clock.GetCurrentInstant().ToDateTimeUtc();
             var userMaybe = await this._userRepository.Find(request.UserId, cancellationToken);
             if (userMaybe.HasNoValue)
             {
@@ -60,7 +55,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
             var user = userMaybe.Value;
             if (user.CheckAndApplyAccountLock(whenHappened))
             {
-                user.RandomizePassword(this._passwordHasher.HashPassword(this._passwordGenerator.Generate()),
+                user.RandomizePassword(
+                    this._passwordHasher.HashPassword(this._passwordGenerator.Generate()),
                     whenHappened);
                 this._userRepository.Update(user);
                 return ResultWithError.Ok<ErrorData>();

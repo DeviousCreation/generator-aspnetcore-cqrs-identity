@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System.Reflection;
 using Autofac;
 using DeviousCreation.CqrsIdentity.Domain;
 using FluentValidation;

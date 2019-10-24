@@ -1,8 +1,10 @@
-﻿using System;
+﻿// TOKEN_COPYRIGHT_TEXT
+
+using System;
 using DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate;
 using Xunit;
 
-namespace DeviousCreation.CqrsIdentity.Domain.Tests.AggregatesModel.UserAggregate
+namespace DeviousCreation.CqrsIdentity.Tests.Domain.AggregatesModel.UserAggregate
 {
     public class UserRoleTests
     {
@@ -18,7 +20,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.Tests.AggregatesModel.UserAggregat
         [Fact]
         public void Constructor_WhenPrivateIsCalled_ObjectIsCreated()
         {
-            var userRole = (UserRole) Activator.CreateInstance(typeof(UserRole), true);
+            var userRole = (UserRole)Activator.CreateInstance(typeof(UserRole), true);
             Assert.NotNull(userRole);
         }
     }
