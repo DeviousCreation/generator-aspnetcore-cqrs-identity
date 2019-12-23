@@ -9,17 +9,17 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate
 {
     public sealed class UpdateProfileCommand : IRequest<ResultWithError<ErrorData>>
     {
-        public UpdateProfileCommand(Guid userId, string firstName, string lastName)
+        public UpdateProfileCommand(string firstName, string lastName, string emailAddress)
         {
-            this.UserId = userId;
             this.FirstName = firstName;
             this.LastName = lastName;
+            this.EmailAddress = emailAddress;
         }
 
         public string FirstName { get; }
 
         public string LastName { get; }
 
-        public Guid UserId { get; set; }
+        public string EmailAddress { get; }
     }
 }

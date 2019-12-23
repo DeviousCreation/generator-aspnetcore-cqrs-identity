@@ -1,25 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="NodaTime" Version="2.4.6" />
+    <PackageReference Include="Fido2" Version="1.1.0-preview2" />
+    <PackageReference Include="NodaTime" Version="2.4.7" />
+    <PackageReference Include="Otp.NET" Version="1.2.2" />
     <PackageReference Include="ResultMonad" Version="1.0.1" />
-    <PackageReference Include="FluentValidation" Version="8.4.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+    <PackageReference Include="FluentValidation" Version="8.5.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.Text.Encodings.Web" Version="4.7.0" />
   </ItemGroup>
 
 
   <ItemGroup>
     <ProjectReference Include="..\DeviousCreation.CqrsIdentity.Core\DeviousCreation.CqrsIdentity.Core.csproj" />
     <ProjectReference Include="..\DeviousCreation.CqrsIdentity.Queries\DeviousCreation.CqrsIdentity.Queries.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\3.0.0\ref\netcoreapp3.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 

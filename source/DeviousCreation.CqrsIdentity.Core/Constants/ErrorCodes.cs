@@ -4,6 +4,7 @@ namespace DeviousCreation.CqrsIdentity.Core.Constants
 {
     public enum ErrorCodes
     {
+        NotSet = 0,
         SavingChanges = 1,
         UserNotFound,
         AccountIsLocked,
@@ -17,5 +18,14 @@ namespace DeviousCreation.CqrsIdentity.Core.Constants
         RoleAlreadyExists,
         RoleInUse,
         RoleNotFound,
+        SystemIsAlreadySetup,
+        UserIsNotVerified,
+        AuthenticatorAppAlreadyEnrolled,
+        FailedVerifyingAuthenticatorCode,
+        DeviceNameInUse,
+        DeviceRegistrationFailed,
+        FidoVerifcationFailed,
+        DeviceNotFound,
+        MfaCodeNotValid
     }
 }

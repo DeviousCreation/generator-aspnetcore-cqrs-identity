@@ -9,8 +9,10 @@ namespace DeviousCreation.CqrsIdentity.Core
     {
         public bool IsValid(string password)
         {
-            var validator = new EzPasswordValidator.Validators.PasswordValidator(CheckTypes.Basic);
-            return validator.Validate(password);
+            //var validator = new EzPasswordValidator.Validators.PasswordValidator(CheckTypes.Basic);
+            //return validator.Validate(password);
+
+            return true;
         }
     }
 }

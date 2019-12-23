@@ -10,7 +10,6 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandValidators.UserAggregate
     {
         public UpdateProfileCommandValidator()
         {
-            this.RuleFor(x => x.UserId).NotEqual(Guid.Empty);
             this.RuleFor(x => x.FirstName).NotEmpty();
             this.RuleFor(x => x.LastName).NotEmpty();
         }

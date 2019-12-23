@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+    "compilerOptions": {        
       "noImplicitAny": false,
       "noEmitOnError": true,
       "removeComments": false,
@@ -8,7 +8,6 @@
       "lib": ["es5", "es6", "dom"]
     },
     "exclude": [
-      "node_modules",
       "wwwroot"
     ]
   }

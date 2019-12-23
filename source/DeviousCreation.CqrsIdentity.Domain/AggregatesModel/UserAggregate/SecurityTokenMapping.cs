@@ -13,7 +13,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
         {
             using (var rng = RandomNumberGenerator.Create())
             {
-                var data = new byte[512];
+                var data = new byte[256];
                 rng.GetBytes(data);
                 this.Token = Convert.ToBase64String(data);
             }

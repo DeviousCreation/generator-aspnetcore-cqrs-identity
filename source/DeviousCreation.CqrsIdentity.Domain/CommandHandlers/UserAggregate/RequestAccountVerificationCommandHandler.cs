@@ -55,15 +55,9 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
             RequestAccountVerificationCommand request, CancellationToken cancellationToken)
         {
             var whenHappened = this._clock.GetCurrentInstant().ToDateTimeUtc();
-            Maybe<IUser> userMaybe;
-            if (this._identitySettings.UseEmailAddressAsUsername)
-            {
-                userMaybe = await this._userRepository.FindByEmailAddress(request.Credential, cancellationToken);
-            }
-            else
-            {
-                userMaybe = await this._userRepository.FindByUsername(request.Credential, cancellationToken);
-            }
+
+            var userMaybe = await this._userRepository.FindByUsername(request.Credential, cancellationToken);
+            
 
             if (userMaybe.HasNoValue)
             {

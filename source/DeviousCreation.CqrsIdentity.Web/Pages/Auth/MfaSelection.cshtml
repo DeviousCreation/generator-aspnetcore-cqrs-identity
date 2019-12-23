@@ -1,0 +1,70 @@
+﻿@page
+@model DeviousCreation.CqrsIdentity.Web.Pages.Auth.MfaSelection
+@{
+}
+<section id="wrapper" class="login-register login-sidebar" style="background-image: url(https://picsum.photos/1920/1080);">
+    <div class="login-box card">
+        <div class="card-body">
+            <form class="form-horizontal form-material" asp-antiforgery="true" method="post">
+                <a href="#" class="text-center d-block">
+                    <img src="~/myci-logo-100.png" alt="Home"/>
+                </a>
+                <div class="message-box contact-box">
+                    
+                    <div class="message-widget contact-widget">
+                        <!-- Message -->
+                        <a href="#">
+                            <div class="user-img">
+                                <span class="round"><i class="icon-mail"></i></span>
+                            </div>
+                            <div class="mail-contnet">
+                                <h5>Email</h5> <span class="mail-desc">info@wrappixel.com</span>
+                            </div>
+                        </a>
+                        @if (this.Model.HasMobile)
+                        {
+                            <a href="#">
+                                <div class="user-img">
+                                    <span class="round"><i class="icon-mobile"></i></span>
+                                </div>
+                                <div class="mail-contnet">
+                                    <h5>Mobile</h5> <span class="mail-desc">pamela1987@gmail.com</span>
+                                </div>
+                            </a>
+                        }
+                        @if (this.Model.HasAuthApp)
+                        {
+                            <a asp-page="/Auth/LoginVerification">
+                                <div class="user-img">
+                                    <span class="round"><i class="icon-lock"></i></span>
+                                </div>
+                                <div class="mail-contnet">
+                                    <h5>Authenticator App</h5> <span class="mail-desc">&nbsp;</span>
+                                </div>
+                            </a>
+                        }
+                        @if (this.Model.HasAuthDevice)
+                        {
+                            <a asp-page="/Auth/LoginDeviceVerification">
+                                <div class="user-img">
+                                    <span class="round"><i class="icon-usb"></i></span>
+                                </div>
+                                <div class="mail-contnet">
+                                    <h5>Authenticator Device</h5> <span class="mail-desc">&nbsp;</span>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="d-flex no-block align-items-center">
+                        <div class="ml-auto">
+                            <a asp-page="/Auth/RequestReset" id="to-recover" class="text-muted"><i class="fa fa-lock mr-1"></i> Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

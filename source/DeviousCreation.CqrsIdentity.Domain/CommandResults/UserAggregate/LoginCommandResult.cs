@@ -18,6 +18,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandResults.UserAggregate
             Unconfirmed = 1,
             PasswordExpired = 2,
             Valid = 4,
+            AuthAppEnabled = 8,
+            AuthDeviceEnabled = 16,
         }
 
         public Guid UserId { get; }

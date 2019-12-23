@@ -19,14 +19,16 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ResultWithError<ErrorData>>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IClock _clock;
         private readonly IdentitySettings _identitySettings;
-        private readonly IUserQueries _userQueries;
         private readonly IPasswordGenerator _passwordGenerator;
         private readonly IPasswordHasher _passwordHasher;
-        private readonly IClock _clock;
+        private readonly IUserQueries _userQueries;
+        private readonly IUserRepository _userRepository;
 
-        public CreateUserCommandHandler(IUserRepository userRepository, IUserQueries userQueries, IPasswordGenerator passwordGenerator, IPasswordHasher passwordHasher, IOptions<IdentitySettings> identitySettings, IClock clock)
+        public CreateUserCommandHandler(IUserRepository userRepository, IUserQueries userQueries,
+            IPasswordGenerator passwordGenerator, IPasswordHasher passwordHasher,
+            IOptions<IdentitySettings> identitySettings, IClock clock)
         {
             if (identitySettings == null)
             {
@@ -58,24 +60,24 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
         private async Task<ResultWithError<ErrorData>> Process(
             CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var statusCheck = await this._userQueries.CheckForPresenceOfUserByUsername(
-                this._identitySettings.UseEmailAddressAsUsername ? request.EmailAddress : request.Username, cancellationToken);
+            var whenHappened = this._clock.GetCurrentInstant().ToDateTimeUtc();
+
+            var statusCheck = await this._userQueries.CheckForPresenceOfUserByUsername(request.Username,
+                cancellationToken);
 
             if (statusCheck.IsPresent)
             {
                 return ResultWithError.Fail(new ErrorData(ErrorCodes.UserIsAlreadyExists));
             }
 
-            if (this._identitySettings.EmailAddressMustBeUnique)
-            {
-                statusCheck = await this._userQueries.CheckForPresenceOfUserByEmailAddress(request.EmailAddress, cancellationToken);
-                if (statusCheck.IsPresent)
-                {
-                    return ResultWithError.Fail(new ErrorData(ErrorCodes.EmailAddressInUse));
-                }
-            }
+           
 
-            var user = new User(Guid.NewGuid(), request.EmailAddress, request.Username, this._passwordHasher.HashPassword(this._passwordGenerator.Generate()), request.IsLockable,  this._clock.GetCurrentInstant().ToDateTimeUtc());
+            var user = new User(Guid.NewGuid(), request.EmailAddress, request.Username,
+                this._passwordHasher.HashPassword(this._passwordGenerator.Generate()), request.IsLockable,
+                this._clock.GetCurrentInstant().ToDateTimeUtc());
+
+            user.GenerateNewAccountConfirmationToken(
+                whenHappened, whenHappened.AddHours(this._identitySettings.ConfirmationTokenLifetime));
             this._userRepository.Add(user);
             return ResultWithError.Ok<ErrorData>();
         }

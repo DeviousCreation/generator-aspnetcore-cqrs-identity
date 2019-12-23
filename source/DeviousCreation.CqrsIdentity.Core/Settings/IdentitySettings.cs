@@ -4,8 +4,6 @@ namespace DeviousCreation.CqrsIdentity.Core.Settings
 {
     public sealed class IdentitySettings
     {
-        public bool UseEmailAddressAsUsername { get; set; }
-
         public int FailedLoginAttemptsThreshold { get; set; }
 
         public bool AccountsMustBeVerified { get; set; }
@@ -21,8 +19,6 @@ namespace DeviousCreation.CqrsIdentity.Core.Settings
         public int ConfirmationTokenLifetime { get; set; }
 
         public int PasswordTokenLifetime { get; set; }
-
-        public bool EmailAddressMustBeUnique { get; set; }
 
         public bool RegisteredAccountsLock { get; set; }
     }

@@ -1,1 +1,21 @@
+@import '../Fonts/css/myci.css'
+
+
 body
+
+.form-material
+    .has-error
+        color:#dc3545
+        .form-control
+            background-image: linear-gradient(#dc3545, #dc3545), linear-gradient(#d9d9d9, #d9d9d9)
+        span[data-valmsg-for]
+            width: 100%
+            margin-top: 0.25rem
+            font-size: 80%
+
+.page-titles .breadcrumb .breadcrumb-item + .breadcrumb-item::before
+	content: "\e806"
+	font-family: "myci"
+header.topbar
+    position: fixed
+    width: 100%

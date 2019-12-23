@@ -1,6 +1,7 @@
 ﻿// TOKEN_COPYRIGHT_TEXT
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core;
@@ -59,15 +60,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
             LoginCommand request, CancellationToken cancellationToken)
         {
             var whenHappened = this._clock.GetCurrentInstant().ToDateTimeUtc();
-            Maybe<IUser> userMaybe;
-            if (this._identitySettings.UseEmailAddressAsUsername)
-            {
-                userMaybe = await this._userRepository.FindByEmailAddress(request.Credential, cancellationToken);
-            }
-            else
-            {
-                userMaybe = await this._userRepository.FindByUsername(request.Credential, cancellationToken);
-            }
+            var userMaybe = await this._userRepository.FindByUsername(request.Credential, cancellationToken);
+            
 
             if (userMaybe.HasNoValue)
             {
@@ -97,29 +91,47 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
                     ErrorCodes.PasswordNotCorrect, "Password not valid"));
             }
 
+            LoginCommandResult.LoginResultStatus loginResultStatus = 0;
+
+
             if (this._identitySettings.AccountsMustBeVerified && !user.IsVerified)
             {
-                return Result.Ok<LoginCommandResult, ErrorData>(new LoginCommandResult(
-                    user.Id, LoginCommandResult.LoginResultStatus.Unconfirmed));
+                loginResultStatus |= LoginCommandResult.LoginResultStatus.Unconfirmed;
+                return Result.Ok<LoginCommandResult, ErrorData>(
+                    new LoginCommandResult(user.Id, loginResultStatus));
             }
 
             user.UpdateValidLoginProperties(whenHappened);
             this._userRepository.Update(user);
 
+           if (user.AuthenticatorApps.Any(x => x.WhenRevoked == null))
+           {
+               loginResultStatus |= LoginCommandResult.LoginResultStatus.AuthAppEnabled;
+           }
+
+           if (user.AuthenticatorDevices.Any(x => x.WhenRevoked == null))
+           {
+               loginResultStatus |= LoginCommandResult.LoginResultStatus.AuthDeviceEnabled;
+           }
+
             if (!this._identitySettings.PasswordsCanExpire)
             {
-                return Result.Ok<LoginCommandResult, ErrorData>(new LoginCommandResult(
-                    user.Id, LoginCommandResult.LoginResultStatus.Valid));
+                loginResultStatus |= LoginCommandResult.LoginResultStatus.Valid;
+                return Result.Ok<LoginCommandResult, ErrorData>(
+                    new LoginCommandResult(user.Id, loginResultStatus));
             }
 
             var passwordAge = (int)(whenHappened - (user.WhenPasswordChanged ?? user.WhenCreated).ToUniversalTime()).TotalDays;
             if (passwordAge >= this._identitySettings.MaxPasswordAgeDays)
             {
-               return Result.Ok<LoginCommandResult, ErrorData>(new LoginCommandResult(user.Id, LoginCommandResult.LoginResultStatus.PasswordExpired));
+                loginResultStatus |= LoginCommandResult.LoginResultStatus.PasswordExpired;
+                return Result.Ok<LoginCommandResult, ErrorData>(new LoginCommandResult(user.Id,
+                    loginResultStatus));
             }
 
+            loginResultStatus |= LoginCommandResult.LoginResultStatus.Valid;
             return Result.Ok<LoginCommandResult, ErrorData>(new LoginCommandResult(
-                user.Id, LoginCommandResult.LoginResultStatus.Valid));
+                user.Id, loginResultStatus));
         }
     }
 }

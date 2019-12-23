@@ -32,15 +32,19 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
 
         Profile Profile { get; }
 
-        IReadOnlyList<SecurityTokenMapping> SecurityTokenMappings { get; }
+        IReadOnlyCollection<SecurityTokenMapping> SecurityTokenMappings { get; }
 
-        IReadOnlyList<PasswordHistory> PasswordHistories { get; }
+        IReadOnlyCollection<PasswordHistory> PasswordHistories { get; }
 
-        IReadOnlyList<SignInHistory> SignInHistories { get; }
+        IReadOnlyCollection<SignInHistory> SignInHistories { get; }
 
-        IReadOnlyList<UserRole> UserRoles { get; }
+        IReadOnlyCollection<UserRole> UserRoles { get; }
+        IReadOnlyCollection<AuthenticatorApp> AuthenticatorApps { get; }
+        IReadOnlyCollection<AuthenticatorDevice> AuthenticatorDevices { get; }
 
         DateTime WhenCreated { get; }
+
+        Guid SecurityStamp { get; }
 
         void AddFailedLoginAttempt(DateTime whenAttempted);
 
@@ -67,5 +71,9 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
         void UnlockAccount(DateTime whenHappened, DateTime whenPasswordTokenExpires);
 
         void VerifyAccount(DateTime whenHappened);
+        void UpdateProfile(string firstName, string lastName, string emailAddress);
+        AuthenticatorApp EnrollAuthenticatorApp(Guid id, string key, DateTime whenEnrolled);
+        void RevokeAuthenticatorApp(DateTime whenRevoked);
+        AuthenticatorDevice EnrollAuthenticatorDevice(Guid id, DateTime whenEnrolled, byte[] publicKey, byte[] credentialId, Guid aaguid, int counter, string name, string credType);
     }
 }

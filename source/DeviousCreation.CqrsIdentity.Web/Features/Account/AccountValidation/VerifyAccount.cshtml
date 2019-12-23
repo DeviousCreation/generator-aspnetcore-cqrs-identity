@@ -1,9 +1,0 @@
-﻿@model DeviousCreation.CqrsIdentity.Web.Features.Account.AccountValidation.VerifyAccountModel
-@{
-}
-
-<form asp-controller="AccountValidation" asp-action="VerifyAccount" asp-antiforgery="true">
-    <input type="hidden" asp-for="Token"/>
-    <input type="password" asp-for="Password" />
-    <input type="password" asp-for="PasswordConfirmation" />
-</form>

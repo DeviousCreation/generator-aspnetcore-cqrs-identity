@@ -51,15 +51,9 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
         private async Task<ResultWithError<ErrorData>> Process(RequestPasswordResetCommand request, CancellationToken cancellationToken)
         {
             var whenHappened = this._clock.GetCurrentInstant().ToDateTimeUtc();
-            Maybe<IUser> userMaybe;
-            if (this._identitySettings.UseEmailAddressAsUsername)
-            {
-                userMaybe = await this._userRepository.FindByEmailAddress(request.Credential, cancellationToken);
-            }
-            else
-            {
-                userMaybe = await this._userRepository.FindByUsername(request.Credential, cancellationToken);
-            }
+
+            var userMaybe = await this._userRepository.FindByUsername(request.Credential, cancellationToken);
+            
 
             if (userMaybe.HasNoValue)
             {
@@ -68,10 +62,10 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 
             var user = userMaybe.Value;
 
-            if (user.IsVerified)
+            if (!user.IsVerified)
             {
                 return ResultWithError.Fail(new ErrorData(
-                    ErrorCodes.UserIsAlreadyVerified));
+                    ErrorCodes.UserIsNotVerified));
             }
 
             var token = user.GenerateNewPasswordResetToken(

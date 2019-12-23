@@ -1,0 +1,112 @@
+﻿@page
+@model DeviousCreation.CqrsIdentity.Web.Pages.App.Users.Index
+@{
+}
+
+<div class="container-fluid">
+    <div class="row page-titles">
+        <div class="col-md-5 col-8 align-self-center">
+            <h3 class="text-themecolor">Dashboard</h3>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-row">
+                        <div class="round round-lg align-self-center round-info"><i class="fa fa-user-plus"></i></div>
+                        <div class="m-l-10 align-self-center">
+                            <h3 class="m-b-0 font-light">@Model.TotalNewUsers</h3>
+                            <h5 class="text-muted m-b-0">Total New Users</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-row">
+                        <div class="round round-lg align-self-center round-warning"><i class="fa fa-clock"></i></div>
+                        <div class="m-l-10 align-self-center">
+                            <h3 class="m-b-0 font-lgiht">@Model.TotalActiveUsers</h3>
+                            <h5 class="text-muted m-b-0">Total Active Users</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-row">
+                        <div class="round round-lg align-self-center round-primary"><i class="fa fa-sign-in-alt"></i></div>
+                        <div class="m-l-10 align-self-center">
+                            <h3 class="m-b-0 font-lgiht">@Model.TotalLogins</h3>
+                            <h5 class="text-muted m-b-0">Total Logins (past month)</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-row">
+                        <div class="round round-lg align-self-center round-danger"><i class="fa fa-lock"></i></div>
+                        <div class="m-l-10 align-self-center">
+                            <h3 class="m-b-0 font-lgiht">@Model.TotalLockedAccounts</h3>
+                            <h5 class="text-muted m-b-0">Total Locked accounts</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <!-- Column -->
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">User Management</h3>
+                    <h6 class="card-subtitle">Create new, edit existing, or change the password of the users of TenantInfo.Name</h6>
+                    <div class="table-responsive">
+                        <table class="table" id="users">
+                            <thead>
+                            <tr>
+                                <th>@Html.DisplayName("User Name")</th>
+                                @*<th>@Html.DisplayName("Email")</th>
+                                    <th>@Html.DisplayName("LastLogin")</th>
+                                    <th>@Html.DisplayName("Role")</th>
+                                    <th>@Html.DisplayName("Lock out Enabled")</th>
+                                    <th>@Html.DisplayName("Status")</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>*@
+                            </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-between">
+                            <div class="mr-auto">
+                                <a asp-page="/Dashboard/Users/Create" class="btn btn-info text-white">Create new user</a>
+                            </div>
+                            <nav aria-label="Page navigation ml-auto">
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/userslist.js" asp-append-version="true"></script>
+}

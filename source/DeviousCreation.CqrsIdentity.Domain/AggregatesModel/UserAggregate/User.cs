@@ -16,6 +16,9 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
         private readonly List<SignInHistory> _signInHistories;
         private readonly List<UserRole> _userRoles;
 
+        private readonly List<AuthenticatorApp> _authenticatorApps;
+        private readonly List<AuthenticatorDevice> _authenticatorDevices;
+
         public User(Guid id, string emailAddress, string username, string passwordHash, bool isLockable, DateTime whenCreated)
             : this()
         {
@@ -33,6 +36,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
             this._passwordHistories = new List<PasswordHistory>();
             this._signInHistories = new List<SignInHistory>();
             this._userRoles = new List<UserRole>();
+            this._authenticatorApps = new List<AuthenticatorApp>();
+            this._authenticatorDevices = new List<AuthenticatorDevice>();
         }
 
         public string EmailAddress { get; private set; }
@@ -59,15 +64,21 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
 
         public Profile Profile { get; private set; }
 
-        public IReadOnlyList<SecurityTokenMapping> SecurityTokenMappings => this._securityTokenMappings.AsReadOnly();
+        public IReadOnlyCollection<SecurityTokenMapping> SecurityTokenMappings => this._securityTokenMappings.AsReadOnly();
 
-        public IReadOnlyList<PasswordHistory> PasswordHistories => this._passwordHistories.AsReadOnly();
+        public IReadOnlyCollection<PasswordHistory> PasswordHistories => this._passwordHistories.AsReadOnly();
 
-        public IReadOnlyList<SignInHistory> SignInHistories => this._signInHistories.AsReadOnly();
+        public IReadOnlyCollection<SignInHistory> SignInHistories => this._signInHistories.AsReadOnly();
 
-        public IReadOnlyList<UserRole> UserRoles => this._userRoles.AsReadOnly();
+        public IReadOnlyCollection<UserRole> UserRoles => this._userRoles.AsReadOnly();
+
+        public IReadOnlyCollection<AuthenticatorApp> AuthenticatorApps => this._authenticatorApps.AsReadOnly();
+
+        public IReadOnlyCollection<AuthenticatorDevice> AuthenticatorDevices => this._authenticatorDevices.AsReadOnly();
 
         public DateTime WhenCreated { get; private set; }
+
+        public Guid SecurityStamp { get; private set; }
 
         public void AddFailedLoginAttempt(DateTime whenAttempted)
         {
@@ -106,7 +117,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
                 this._securityTokenMappings.Add(token);
             }
 
-            this.AddDomainEvent(new GenerateAccountConfirmationTokenGeneratedEvent());
+            this.AddDomainEvent(new GenerateAccountConfirmationTokenGeneratedEvent(this.Id, token.Token));
 
             return token;
         }
@@ -182,6 +193,45 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
         public void VerifyAccount(DateTime whenHappened)
         {
             this.WhenVerified = whenHappened;
+        }
+
+        public void UpdateProfile(string firstName, string lastName, string emailAddress)
+        {
+            if (this.Profile == null)
+            {
+                this.Profile = new Profile(this.Id, firstName, lastName);
+            }
+            else
+            {
+                this.Profile.UpdateProfile(firstName, lastName);
+            }
+
+            if (!this.EmailAddress.Equals(emailAddress, StringComparison.InvariantCultureIgnoreCase))
+            {
+                this.AddDomainEvent(new UserEmailChangeEvent(this.Id, this.EmailAddress));
+                this.EmailAddress = emailAddress;
+            }
+            
+
+        }
+
+        public AuthenticatorApp EnrollAuthenticatorApp(Guid id, string key, DateTime whenEnrolled)
+        {
+            var authenticatorApp = new AuthenticatorApp(id, key, whenEnrolled);
+            this._authenticatorApps.Add(authenticatorApp);
+            return authenticatorApp;
+        }
+
+        public void RevokeAuthenticatorApp(DateTime whenRevoked)
+        {
+            this._authenticatorApps.Single(x => x.WhenRevoked == null).RevokeApp(whenRevoked);
+        }
+
+        public AuthenticatorDevice EnrollAuthenticatorDevice(Guid id, DateTime whenEnrolled, byte[] publicKey, byte[] credentialId, Guid aaguid, int counter, string name, string credType)
+        {
+            var authenticatorDevice = new AuthenticatorDevice(id, whenEnrolled, publicKey, credentialId,aaguid, counter, name, credType);
+            this._authenticatorDevices.Add(authenticatorDevice);
+            return authenticatorDevice;
         }
     }
 }

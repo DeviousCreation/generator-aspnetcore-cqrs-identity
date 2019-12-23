@@ -1,0 +1,35 @@
+﻿@page
+@model DeviousCreation.CqrsIdentity.Web.Pages.Auth.LoginVerification
+@{
+}
+    <section id="wrapper" class="login-register login-sidebar" style="background-image:url(https://picsum.photos/1920/1080);">
+        <div class="login-box card">
+            <div class="card-body">
+                <form class="form-horizontal form-material" asp-antiforgery="true" method="post">
+                    <a href="#" class="text-center d-block"><img src="~/myci-logo-100.png" alt="Home" /></a>
+                    <div class="form-group mt-4">
+                        <div class="col-xs-12">
+                            <input class="form-control" type="text" asp-for="PageModel.Code" placeholder="Core">
+                            <span asp-validation-for="PageModel.Code"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="d-flex no-block align-items-center">
+                            <div class="checkbox checkbox-primary pt-0">
+                                <input id="checkbox-signup" type="checkbox">
+                                <label for="checkbox-signup"> Remember me </label>
+                            </div>
+                            <div class="ml-auto">
+                                <a asp-page="/Auth/RequestReset" id="to-recover" class="text-muted"><i class="fa fa-lock mr-1"></i> Forgot pwd?</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-center mt-3">
+                        <div class="col-xs-12">
+                            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Log In</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>

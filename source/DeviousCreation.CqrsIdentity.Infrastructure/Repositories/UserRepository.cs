@@ -40,7 +40,7 @@ namespace DeviousCreation.CqrsIdentity.Infrastructure.Repositories
 
         public void Update(IUser user)
         {
-            this._dataContext.Entry(user).State = EntityState.Modified;
+            this._dataContext.Users.Update(user as User);
         }
 
         public async Task<Maybe<IUser>> Find(Guid userId, CancellationToken cancellationToken)
@@ -78,9 +78,10 @@ namespace DeviousCreation.CqrsIdentity.Infrastructure.Repositories
                 await this._dataContext.Entry(entity).ReloadAsync();
                 await this._dataContext.Entry(entity).Collection(w => w.PasswordHistories).LoadAsync();
                 await this._dataContext.Entry(entity).Collection(w => w.SecurityTokenMappings).LoadAsync();
-                await this._dataContext.Entry(entity).Collection(w => w.PasswordHistories).LoadAsync();
-                await this._dataContext.Entry(entity).Collection(w => w.UserRoles).LoadAsync();
-                await this._dataContext.Entry(entity).Collection(w => w.SignInHistories).LoadAsync();
+                await this._dataContext.Entry(entity).Collection(w => w.AuthenticatorApps).LoadAsync();
+                await this._dataContext.Entry(entity).Collection(w => w.AuthenticatorDevices).LoadAsync();
+                //await this._dataContext.Entry(entity).Collection(w => w.UserRoles).LoadAsync();
+                //await this._dataContext.Entry(entity).Collection(w => w.SignInHistories).LoadAsync();
             }
         }
     }

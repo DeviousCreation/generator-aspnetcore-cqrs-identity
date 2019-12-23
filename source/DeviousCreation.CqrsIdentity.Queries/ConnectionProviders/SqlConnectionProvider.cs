@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using DeviousCreation.CqrsIdentity.Queries.Contracts;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace DeviousCreation.CqrsIdentity.Queries.ConnectionProviders
 {
@@ -12,14 +13,14 @@ namespace DeviousCreation.CqrsIdentity.Queries.ConnectionProviders
     {
         private readonly string _connectionString;
 
-        public SqlConnectionProvider(IConfiguration configuration)
+        public SqlConnectionProvider(IOptions<QuerySettings> querySettings)
         {
-            if (configuration == null)
+            if (querySettings == null)
             {
-                throw new ArgumentNullException(nameof(configuration));
+                throw new ArgumentNullException(nameof(querySettings));
             }
 
-            this._connectionString = configuration["ConnectionString"];
+            this._connectionString = querySettings.Value.ConnectionString;
         }
 
         public IDbConnection Connection => new SqlConnection(this._connectionString);

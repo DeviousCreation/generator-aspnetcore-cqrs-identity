@@ -59,6 +59,8 @@
     <Folder Include="Identity" />
     <Folder Include="Identity\Tables" />
     <Folder Include="Security" />
+    <Folder Include="Odata" />
+    <Folder Include="Odata\Views" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Identity\Tables\User.sql" />
@@ -69,8 +71,15 @@
     <Build Include="Identity\Tables\SignInHistory.sql" />
     <Build Include="Identity\Tables\UserRole.sql" />
     <Build Include="Identity\Tables\Role.sql" />
+    <Build Include="Identity\Tables\AuthenticatorApp.sql" />
+    <Build Include="Identity\Tables\AuthenticatorDevice.sql" />
+    <Build Include="Security\Odata.sql" />
+    <Build Include="Odata\Views\User.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="DeviousCreation.CqrsIdentity.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DeviousCreation.CqrsIdentity.Database.publish.xml" />
   </ItemGroup>
 </Project>

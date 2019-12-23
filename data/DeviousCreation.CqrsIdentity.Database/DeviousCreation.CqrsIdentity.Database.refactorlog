@@ -14,4 +14,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="UserId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="2a66e982-b56d-4e47-85cb-e1fea1ad0bb3" ChangeDateTime="11/22/2019 18:11:48">
+    <Property Name="ElementName" Value="[Identity].[AuthenticatorDevice].[W]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[Identity].[AuthenticatorDevice]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WhenEnrolled" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f7b5e4f5-8bee-49dc-a210-0d00b9bed946" ChangeDateTime="12/05/2019 12:53:03">
+    <Property Name="ElementName" Value="[Identity].[AuthenticatorDevice].[KeyHandle]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[Identity].[AuthenticatorDevice]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CredentialId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="43eb6e9b-df13-4b94-bbaf-8adbb7948015" ChangeDateTime="12/05/2019 12:53:10">
+    <Property Name="ElementName" Value="[Identity].[AuthenticatorDevice].[AttestationCert]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[Identity].[AuthenticatorDevice]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Aaguid" />
+  </Operation>
 </Operations>

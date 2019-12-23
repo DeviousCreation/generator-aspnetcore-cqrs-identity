@@ -1,0 +1,98 @@
+﻿@page "/app/profile/my-details"
+@model DeviousCreation.CqrsIdentity.Web.Pages.App.Profile.Details
+@{
+}
+<div class="container-fluid">
+    <div class="row page-titles">
+        <div class="col-md-5 col-8 align-self-center">
+            <h3 class="text-themecolor m-b-0 m-t-0">Profile</h3>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-page="/Dashboard/Dashboard">Home</a></li>
+                <li class="breadcrumb-item">Profile</li>
+                <li class="breadcrumb-item active">My Details</li>
+            </ol>
+            <breadcrumb></breadcrumb>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Column -->
+        <div class="col-lg-4 col-xlg-3 col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <center class="m-t-30">
+                        <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000" class="img-circle" width="150" />
+                        <h4 class="card-title m-t-10">Hanna Gover</h4>
+                        <h6 class="card-subtitle">Accoubts Manager Amix corp</h6>
+                        <div class="row text-center justify-content-md-center">
+                            <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-people"></i> <font class="font-medium">254</font></a></div>
+                            <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <font class="font-medium">54</font></a></div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+        <!-- Column -->
+        <div class="col-lg-8 col-xlg-9 col-md-7">
+            <div class="card">
+                <div class="card">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs profile-tab" role="tablist" id="profileTabs">
+                        <li class="nav-item"> <a class="nav-link active" role="tab" asp-page="/App/Profile/Details">My Details</a> </li>
+                        <li class="nav-item"> <a class="nav-link" role="tab" asp-page="/App/Profile/Password">Password</a> </li>
+                        <li class="nav-item"> <a class="nav-link " role="tab" asp-page="/App/Profile/AuthenticatorApp">Authenticator App</a> </li>
+                        <li class="nav-item"> <a class="nav-link" role="tab" asp-page="/App/Profile/SecurityKeys">Security Keys</a> </li>
+                        <li class="nav-item"> <a class="nav-link" role="tab" asp-page="/App/Profile/PersonalData">Personal Data</a> </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="profile" role="tabpanel">
+                            <div class="card-body">
+                                <form class="form-horizontal form-material" method="post" asp-antiforgery="true">
+                                    <div class="form-group">
+                                        <label class="col-md-12" asp-for="PageModel.Username"></label>
+                                        <div class="col-md-12">
+                                            <input class="form-control form-control-line  disabled-form-control" asp-for="PageModel.Username" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12" asp-for="PageModel.FirstName"></label>
+                                        <div class="col-md-12">
+                                            <input class="form-control form-control-line" asp-for="PageModel.FirstName" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12" asp-for="PageModel.LastName"></label>
+                                        <div class="col-md-12">
+                                            <input class="form-control form-control-line" asp-for="PageModel.LastName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12" asp-for="PageModel.EmailAddress"></label>
+                                        <div class="col-md-12">
+                                            <input class="form-control form-control-line" asp-for="PageModel.EmailAddress" type="email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-info text-white">Update Profile</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>
+    <!-- Row -->
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Container fluid  -->
+<!-- ============================================================== -->
