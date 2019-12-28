@@ -35,4 +35,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Aaguid" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="0050adf4-14a6-4227-a102-e092c9f6cd0b" ChangeDateTime="12/23/2019 12:35:01">
+    <Property Name="ElementName" Value="[AccessProtection].[RoleResource].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[AccessProtection].[RoleResource]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RoleId" />
+  </Operation>
 </Operations>

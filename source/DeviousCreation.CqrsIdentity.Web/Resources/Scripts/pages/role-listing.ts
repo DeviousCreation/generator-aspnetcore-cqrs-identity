@@ -4,7 +4,7 @@ import 'datatables.net-bs4'
 
 import {DataTablesODataProvider} from '../services/datatables-odata-provider'
 
-export class UsersList {
+export class RoleListing {
     private actions: JQuery;
     constructor() {
         if (document.readyState !== 'loading') {
@@ -21,10 +21,10 @@ export class UsersList {
         $('#users').DataTable({
             processing: true,
             serverSide: true,
-            ajax: DataTablesODataProvider.providerFunction('/odata/user'),
+            ajax: DataTablesODataProvider.providerFunction('/odata/role'),
             columns: [
-                { data: "EmailAddress" },
-                { data: "Username" },
+                { data: "Name" },
+                { data: "ResourceCount" },
                 {
                     data: "Id",
                     render: (data: any, type: any, row: any, meta: DataTables.CellMetaSettings) => contextThis.renderActions(data, type, row, meta)
@@ -41,4 +41,4 @@ export class UsersList {
 
 }
 
-new UsersList();
+new RoleListing();

@@ -7,6 +7,7 @@ using DeviousCreation.CqrsIdentity.Core.Contracts;
 using DeviousCreation.CqrsIdentity.Core.Domain;
 using DeviousCreation.CqrsIdentity.Core.Settings;
 using DeviousCreation.CqrsIdentity.Domain;
+using DeviousCreation.CqrsIdentity.Domain.AggregatesModel.RoleAggregate;
 using DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate;
 using DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate;
 using DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate;
@@ -40,8 +41,10 @@ namespace DeviousCreation.CqrsIdentity.Web.Infrastructure.ServiceConfiguration
             services.AddSingleton<IPasswordGenerator, PasswordGenerator>();
             services.AddSingleton<IPasswordValidator, PasswordValidator>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IDbConnectionProvider, SqlConnectionProvider>();
             services.AddScoped<IUserQueries, UserQueries>();
+            services.AddScoped<IRoleQueries, RoleQueries>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddSingleton<IClock>(SystemClock.Instance);
@@ -78,15 +81,15 @@ namespace DeviousCreation.CqrsIdentity.Web.Infrastructure.ServiceConfiguration
                 .AddCookie(options => { options.LoginPath = "/sign-in"; })
                 .AddCookie("login-partial");
 
-            services.AddFido2(options =>
-            {
-                options.ServerDomain = configuration["fido2:serverDomain"];
-                options.ServerName = "FIDO2 Test";
-                options.Origin = configuration["fido2:origin"];
-                options.TimestampDriftTolerance = configuration.GetValue<int>("fido2:timestampDriftTolerance");
-                options.MDSAccessKey = configuration["fido2:MDSAccessKey"];
-                options.MDSCacheDirPath = configuration["fido2:MDSCacheDirPath"];
-            })
+            //services.AddFido2(options =>
+            //{
+            //    options.ServerDomain = configuration["fido2:serverDomain"];
+            //    options.ServerName = "FIDO2 Test";
+            //    options.Origin = configuration["fido2:origin"];
+            //    options.TimestampDriftTolerance = configuration.GetValue<int>("fido2:timestampDriftTolerance");
+            //    options.MDSAccessKey = configuration["fido2:MDSAccessKey"];
+            //    options.MDSCacheDirPath = configuration["fido2:MDSCacheDirPath"];
+            //})
                 //.AddCachedMetadataService(config =>
                 //{
                 //    //They'll be used in a "first match wins" way in the order registered

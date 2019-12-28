@@ -51,6 +51,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.RoleAggregate
             }
 
             var role = this._roleRepository.Add(new Role(Guid.NewGuid(), request.Name));
+            role.SetRoles(request.Resources);
 
             return Result.Ok<CreateRoleCommandResult, ErrorData>(new CreateRoleCommandResult(role.Id));
         }

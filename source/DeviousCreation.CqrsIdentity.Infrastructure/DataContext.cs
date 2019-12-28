@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core.Contracts;
+using DeviousCreation.CqrsIdentity.Domain.AggregatesModel.RoleAggregate;
 using DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,8 @@ namespace DeviousCreation.CqrsIdentity.Infrastructure
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Role> Roles { get; set; }
+
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             await this.SaveChangesAsync(cancellationToken);
@@ -41,7 +44,31 @@ namespace DeviousCreation.CqrsIdentity.Infrastructure
             modelBuilder.Entity<SignInHistory>(this.ConfigureSignInHistory);
             modelBuilder.Entity<AuthenticatorApp>(this.ConfigureAuthenticatorApp);
             modelBuilder.Entity<AuthenticatorDevice>(this.ConfigureAuthenticatorDevice);
+            modelBuilder.Entity<Role>(this.ConfigureRole);
             //modelBuilder.Entity<UserRole>(this.ConfigureUserRole);
+        }
+
+        private void ConfigureRole(EntityTypeBuilder<Role> config)
+        {
+            config.ToTable("role", "AccessProtection");
+            config.HasKey(entity => entity.Id);
+            config.Ignore(b => b.DomainEvents);
+            config.Property(e => e.Id).ValueGeneratedNever();
+
+            var navigation = config.Metadata.FindNavigation(nameof(Role.RoleResources));
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            
+            config.OwnsMany(p => p.RoleResources, a =>
+            {
+                a.ToTable("RoleResource", "AccessProtection");
+                a.HasKey(entity => entity.Id);
+                a.Property(e => e.Id).ValueGeneratedNever();
+                //a.WithOwner().HasForeignKey(x => x.Id);
+                a.HasKey(e => e.Id);
+                a.Property(x => x.Id).HasColumnName("ResourceId");
+                a.Ignore(b => b.DomainEvents);
+            });
         }
 
         private void ConfigureAuthenticatorDevice(EntityTypeBuilder<AuthenticatorDevice> config)

@@ -13,10 +13,7 @@ export class DataTablesODataProvider {
             };
 
             $.each(settings.aoColumns, function (i, value) {
-                var sFieldName = (value.sName !== null && value.sName !== "") ? value.sName : ((typeof value.mData === 'string') ? value.mData : null);
-                if (sFieldName === null || !isNaN(Number(sFieldName))) {
-                    sFieldName = value.sTitle;
-                }
+                var sFieldName = ((typeof value.mData === 'string') ? value.mData : null);
                 if (sFieldName === null || !isNaN(Number(sFieldName))) {
                     return;
                 }

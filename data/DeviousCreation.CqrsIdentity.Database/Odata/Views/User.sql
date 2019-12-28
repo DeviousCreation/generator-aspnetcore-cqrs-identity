@@ -12,5 +12,5 @@ SELECT
 	,	p.FirstName
 	,	p.LastName
 FROM [Identity].[User] u
-JOIN [Identity].Profile p
+LEFT JOIN [Identity].Profile p
 	ON u.Id = p.UserId

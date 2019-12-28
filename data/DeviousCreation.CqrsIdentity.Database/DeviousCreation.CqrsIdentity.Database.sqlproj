@@ -61,25 +61,34 @@
     <Folder Include="Security" />
     <Folder Include="Odata" />
     <Folder Include="Odata\Views" />
+    <Folder Include="AccessProtection" />
+    <Folder Include="Security\Schemas" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Identity\Tables\User.sql" />
-    <Build Include="Security\Identity.sql" />
     <Build Include="Identity\Tables\Profile.sql" />
     <Build Include="Identity\Tables\SecurityTokenMapping.sql" />
     <Build Include="Identity\Tables\PasswordHistory.sql" />
     <Build Include="Identity\Tables\SignInHistory.sql" />
     <Build Include="Identity\Tables\UserRole.sql" />
-    <Build Include="Identity\Tables\Role.sql" />
     <Build Include="Identity\Tables\AuthenticatorApp.sql" />
     <Build Include="Identity\Tables\AuthenticatorDevice.sql" />
-    <Build Include="Security\Odata.sql" />
     <Build Include="Odata\Views\User.sql" />
+    <Build Include="Security\Schemas\Identity.sql" />
+    <Build Include="Security\Schemas\Odata.sql" />
+    <Build Include="Security\Schemas\AccessProtection.sql" />
+    <Build Include="AccessProtection\Role.sql" />
+    <Build Include="AccessProtection\Resource.sql" />
+    <Build Include="AccessProtection\RoleResource.sql" />
+    <Build Include="Odata\Views\Role.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="DeviousCreation.CqrsIdentity.Database.refactorlog" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DeviousCreation.CqrsIdentity.Database.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>

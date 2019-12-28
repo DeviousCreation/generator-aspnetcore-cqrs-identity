@@ -10,8 +10,10 @@ module.exports = {
         app:  ['./Resources/Styles/app.sass', './Resources/Scripts/app.ts'],
         theme: ['./Resources/Styles/theme.sass'],
         vendor: ['./Resources/Styles/vendor.sass'],
-        profileAuthApp: './Resources/Scripts/pages/profile-auth-app.ts',
-        userslist: './Resources/Scripts/pages/users-list.ts'
+        'profile-auth-app': './Resources/Scripts/pages/profile-auth-app.ts',
+        'user-listing': './Resources/Scripts/pages/users-list.ts',
+        'role-listing': './Resources/Scripts/pages/role-listing.ts',
+        'role-creation': './Resources/Scripts/pages/role-creation.ts',
     },
     devtool: 'inline-source-map',
     output: {
@@ -60,10 +62,22 @@ module.exports = {
             }]
     },
     optimization: {
-        // splitChunks: {
-        //   // include all types of chunks
-        //   chunks: 'all'
-        // }
+        splitChunks: {
+           // include all types of chunks
+           cacheGroups: {
+            vendors: {
+                test: /[\\/]node_modules[\\/]/,
+                name: 'vendors',
+                chunks: 'all'
+              },
+            commons: {
+                name: 'commons',
+                test: /[\\/]Scripts[\\/](helpers|services)[\\/]/,
+                chunks: 'all'
+              },
+              
+          }
+        }
       },
       plugins: [
         new CleanWebpackPlugin() ,

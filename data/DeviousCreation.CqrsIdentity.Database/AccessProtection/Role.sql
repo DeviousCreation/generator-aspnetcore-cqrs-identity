@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Identity].[Role]
+﻿CREATE TABLE [AccessProtection].[Role]
 (
 	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
     [Name] NVARCHAR(100) NULL

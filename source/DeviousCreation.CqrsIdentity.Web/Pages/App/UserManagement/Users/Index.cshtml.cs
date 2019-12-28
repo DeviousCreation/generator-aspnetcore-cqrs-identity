@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Users
+namespace DeviousCreation.CqrsIdentity.Web.Pages.App.UserManagement.Users
 {
     public class Index : PageModel
     {
@@ -9,6 +9,7 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Users
         public int TotalActiveUsers {get; private set;}
         public int TotalLogins {get; private set;}
         public int TotalLockedAccounts {get; private set;}
+
         [Authorize]
         public void OnGet()
         {

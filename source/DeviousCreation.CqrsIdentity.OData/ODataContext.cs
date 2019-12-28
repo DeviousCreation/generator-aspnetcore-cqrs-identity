@@ -1,5 +1,6 @@
 ﻿// TOKEN_COPYRIGHT_TEXT
 
+using DeviousCreation.CqrsIdentity.OData.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,14 +13,22 @@ namespace DeviousCreation.CqrsIdentity.OData
             this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        public DbSet<User.User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User.User>(this.ConfigureUser);
+            modelBuilder.Entity<User>(this.ConfigureUser);
+            modelBuilder.Entity<Role>(this.ConfigureRole);
         }
 
-        private void ConfigureUser(EntityTypeBuilder<User.User> config)
+        private void ConfigureRole(EntityTypeBuilder<Role> config)
+        {
+            config.ToTable("vwRole", "Odata");
+            config.HasKey(x => x.Id);
+        }
+
+        private void ConfigureUser(EntityTypeBuilder<User> config)
         {
             config.ToTable("vwUser", "Odata");
             config.HasKey(x => x.Id);

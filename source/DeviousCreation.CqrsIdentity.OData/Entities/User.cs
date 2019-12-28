@@ -2,7 +2,7 @@
 
 using System;
 
-namespace DeviousCreation.CqrsIdentity.OData.User
+namespace DeviousCreation.CqrsIdentity.OData.Entities
 {
     public class User
     {
@@ -25,5 +25,12 @@ namespace DeviousCreation.CqrsIdentity.OData.User
         public string LastName { get; set; }
 
         public DateTime WhenCreated { get; set; }
+    }
+
+    public class Role
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public int ResourceCount { get; set; }
     }
 }

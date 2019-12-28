@@ -29,7 +29,7 @@ class App {
             AppInsights.downloadAndSetup({ instrumentationKey: appInsightsKey });
             AppInsights.trackPageView();
         }        
-        const forms = document.getElementsByTagName('form');
+        const forms = document.querySelectorAll('form:not([data-no-auto-validation])');
         Array.prototype.forEach.call(forms, (form: any) => {
             const v = new Validator(form);
         });

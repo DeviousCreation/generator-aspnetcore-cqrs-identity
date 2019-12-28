@@ -43,7 +43,6 @@
     <ProjectReference Include="..\DeviousCreation.CqrsIdentity.Infrastructure\DeviousCreation.CqrsIdentity.Infrastructure.csproj" />
     <ProjectReference Include="..\DeviousCreation.CqrsIdentity.OData\DeviousCreation.CqrsIdentity.OData.csproj" />
     <ProjectReference Include="..\DeviousCreation.CqrsIdentity.Queries\DeviousCreation.CqrsIdentity.Queries.csproj" />
-    <ProjectReference Include="..\Fido2.AspNet\Fido2.AspNet.csproj" />
   </ItemGroup>
 
   <ItemGroup>

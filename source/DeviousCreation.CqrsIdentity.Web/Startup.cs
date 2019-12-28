@@ -2,7 +2,7 @@
 
 using System.Reflection;
 using DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate;
-using DeviousCreation.CqrsIdentity.OData.User;
+using DeviousCreation.CqrsIdentity.OData.Entities;
 using DeviousCreation.CqrsIdentity.Web.Infrastructure.ServiceConfiguration;
 using JetBrains.Annotations;
 using MediatR;
@@ -94,6 +94,7 @@ namespace DeviousCreation.CqrsIdentity.Web
         {
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<User>("User");
+            builder.EntitySet<Role>("Role");
             return builder.GetEdmModel();
         }
 

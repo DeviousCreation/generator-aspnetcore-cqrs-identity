@@ -8,10 +8,12 @@ export class Validator {
     private constraints: any;
     private hasValidated: boolean = false;
 
-    constructor(formQuery: string | HTMLFormElement) {
+    constructor(formQuery: string | HTMLFormElement | JQuery, validateOnSubmit: boolean = true) {
         const contextThis = this;
         if (formQuery.isPrototypeOf(String)) {
             this.form = document.querySelector(formQuery as string) as HTMLFormElement;
+        } else if (formQuery instanceof  jQuery && formQuery.length) {
+            this.form = formQuery[0] as HTMLFormElement;
         } else {
             this.form = formQuery as HTMLFormElement;
         }
@@ -23,7 +25,7 @@ export class Validator {
 
         this.constraints = {};
         this.elements = [];
-        var els = this.form.querySelectorAll('input:not([type="hidden"]), textarea');
+        var els = this.form.querySelectorAll('input:not([type="hidden"]):not([data-val="false"]), textarea:not([data-val="false"])');
         Array.prototype.forEach.call(els,
             (element: HTMLInputElement) => {
                 let needsValidation: boolean = false;
@@ -86,7 +88,9 @@ export class Validator {
             }
                 
         });
-        this.form.addEventListener('submit', (e) => { contextThis.formSubmit(e); });
+        if(validateOnSubmit) {
+            this.form.addEventListener('submit', (e) => { contextThis.formSubmit(e); });
+        }
         this.formSubmitted = false;
     }
 
@@ -94,6 +98,11 @@ export class Validator {
         if (this.hasValidated) {
             this.performValidation();
         }
+    }
+
+    public validate(): boolean {
+        this.hasValidated = true;
+        return this.performValidation();
     }
 
     private formSubmit(event: Event): void {

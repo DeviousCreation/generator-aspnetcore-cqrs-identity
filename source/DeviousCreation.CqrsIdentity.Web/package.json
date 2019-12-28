@@ -25,6 +25,7 @@
   "dependencies": {
     "@icon/linea-arrows": "^1.0.0",
     "@types/datatables.net": "^1.10.18",
+    "@types/gijgo": "^1.9.1",
     "@types/jquery": "^3.3.31",
     "animate.css": "^3.7.2",
     "applicationinsights-js": "^1.0.20",
@@ -34,6 +35,7 @@
     "bulma": "0.7.5",
     "datatables.net-bs4": "^1.10.20",
     "font-awesome": "^4.7.0",
+    "gijgo": "^1.9.13",
     "gulp-cssimport": "^7.0.0",
     "jquery": "^3.4.1",
     "jquery-datatables-odata": "^1.0.0",

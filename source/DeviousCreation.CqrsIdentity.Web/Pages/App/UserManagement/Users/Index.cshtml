@@ -1,18 +1,20 @@
-﻿@page
-@model DeviousCreation.CqrsIdentity.Web.Pages.App.Users.Index
+﻿@page "/app/user-management/users"
+@model DeviousCreation.CqrsIdentity.Web.Pages.App.UserManagement.Users.Index
 @{
 }
 
 <div class="container-fluid">
     <div class="row page-titles">
         <div class="col-md-5 col-8 align-self-center">
-            <h3 class="text-themecolor">Dashboard</h3>
+            <h3 class="text-themecolor m-b-0 m-t-0">Users</h3>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item"><a asp-page="/App/Index">Home</a></li>
+                <li class="breadcrumb-item">User Management</li>
+                <li class="breadcrumb-item active">Users</li>
             </ol>
-        </div>        
+        </div>
     </div>
+
     <div class="row">
         <div class="col-lg-3 col-md-6">
             <div class="card">
@@ -77,17 +79,17 @@
                     <div class="table-responsive">
                         <table class="table" id="users">
                             <thead>
-                            <tr>
-                                <th>@Html.DisplayName("User Name")</th>
-                                @*<th>@Html.DisplayName("Email")</th>
-                                    <th>@Html.DisplayName("LastLogin")</th>
-                                    <th>@Html.DisplayName("Role")</th>
-                                    <th>@Html.DisplayName("Lock out Enabled")</th>
-                                    <th>@Html.DisplayName("Status")</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>*@
-                            </tr>
+                                <tr>
+                                    <th>@Html.DisplayName("User Name")</th>
+                                    <th>@Html.DisplayName("Email")</th>
+                                    @*    <th>@Html.DisplayName("LastLogin")</th>
+        <th>@Html.DisplayName("Role")</th>
+        <th>@Html.DisplayName("Lock out Enabled")</th>
+        <th>@Html.DisplayName("Status")</th>
+        <th></th>
+        <th></th>*@
+        <th>Actions</th>
+                                </tr>
                             </thead>
                             <tbody>
                             
@@ -95,7 +97,7 @@
                         </table>
                         <div class="d-flex justify-content-between">
                             <div class="mr-auto">
-                                <a asp-page="/Dashboard/Users/Create" class="btn btn-info text-white">Create new user</a>
+                                <a asp-page="/App/UserManagement/Users/Create" class="btn btn-info text-white">Create new user</a>
                             </div>
                             <nav aria-label="Page navigation ml-auto">
                             </nav>
@@ -108,5 +110,10 @@
 </div>
 @section scripts
 {
-    <script src="~/userslist.js" asp-append-version="true"></script>
+    <script type="text/x-template" id="actions">
+        <div>
+            <a data-edit href="@Url.PageLink(pageName: "/App/UserManagement/Users/Edit", values: new {id = "__ID__"})">Edit</a>
+        </div>
+    </script>
+    <script src="~/role-listing.js" asp-append-version="true"></script>
 }

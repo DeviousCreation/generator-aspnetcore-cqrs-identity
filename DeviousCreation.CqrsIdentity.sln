@@ -40,9 +40,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeviousCreation.CqrsIdentit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviousCreation.CqrsIdentity.Tests", "tests\DeviousCreation.CqrsIdentity.Tests\DeviousCreation.CqrsIdentity.Tests.csproj", "{A07BC756-44B6-46F9-A341-C79D31AEAC40}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fido2.AspNet", "source\Fido2.AspNet\Fido2.AspNet.csproj", "{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviousCreation.CqrsIdentity.OData", "source\DeviousCreation.CqrsIdentity.OData\DeviousCreation.CqrsIdentity.OData.csproj", "{FFC5B53F-CC37-4B66-9BCB-17234EBF1709}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviousCreation.CqrsIdentity.OData", "source\DeviousCreation.CqrsIdentity.OData\DeviousCreation.CqrsIdentity.OData.csproj", "{FFC5B53F-CC37-4B66-9BCB-17234EBF1709}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -147,18 +145,6 @@ Global
 		{A07BC756-44B6-46F9-A341-C79D31AEAC40}.Release|x64.Build.0 = Release|Any CPU
 		{A07BC756-44B6-46F9-A341-C79D31AEAC40}.Release|x86.ActiveCfg = Release|Any CPU
 		{A07BC756-44B6-46F9-A341-C79D31AEAC40}.Release|x86.Build.0 = Release|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Debug|x64.Build.0 = Debug|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Debug|x86.Build.0 = Debug|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Release|x64.ActiveCfg = Release|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Release|x64.Build.0 = Release|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Release|x86.ActiveCfg = Release|Any CPU
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA}.Release|x86.Build.0 = Release|Any CPU
 		{FFC5B53F-CC37-4B66-9BCB-17234EBF1709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FFC5B53F-CC37-4B66-9BCB-17234EBF1709}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFC5B53F-CC37-4B66-9BCB-17234EBF1709}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -184,7 +170,6 @@ Global
 		{22EC95D1-1148-430B-A3D9-9A96BB63663E} = {13D05F41-BE19-49DA-9615-42A71BA6F2D0}
 		{F1378E75-EE2E-4F80-93D3-3C57BADD52FA} = {8E5362BA-5AF2-4512-98FB-6794FCE71F82}
 		{A07BC756-44B6-46F9-A341-C79D31AEAC40} = {C2837AE8-FA13-463D-8F96-11162968424D}
-		{92B5EF02-C9BC-44F9-9646-7C1DC6A29EAA} = {3F170F3A-AB27-4028-A857-E63656F45F18}
 		{FFC5B53F-CC37-4B66-9BCB-17234EBF1709} = {3F170F3A-AB27-4028-A857-E63656F45F18}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
