@@ -14,6 +14,7 @@ module.exports = {
         'user-listing': './Resources/Scripts/pages/users-list.ts',
         'role-listing': './Resources/Scripts/pages/role-listing.ts',
         'role-creation': './Resources/Scripts/pages/role-creation.ts',
+        'login-device-verification': './Resources/Scripts/pages/login-device-verification.ts'
     },
     devtool: 'inline-source-map',
     output: {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core.Settings;
 using DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate;
@@ -53,7 +54,7 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.Auth
 
                     var res = await this._mediator.Send(new CreateUserCommand(
                         this.PageModel.EmailAddress,
-                        this.PageModel.Username, this._identitySettings.RegisteredAccountsLock));
+                        this.PageModel.Username, this._identitySettings.RegisteredAccountsLock, false, new List<Guid>()));
 
                     this.DataSubmitted = true;
             }

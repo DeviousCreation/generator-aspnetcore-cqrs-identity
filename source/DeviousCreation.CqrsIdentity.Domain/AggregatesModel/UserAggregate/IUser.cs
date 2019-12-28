@@ -75,5 +75,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
         AuthenticatorApp EnrollAuthenticatorApp(Guid id, string key, DateTime whenEnrolled);
         void RevokeAuthenticatorApp(DateTime whenRevoked);
         AuthenticatorDevice EnrollAuthenticatorDevice(Guid id, DateTime whenEnrolled, byte[] publicKey, byte[] credentialId, Guid aaguid, int counter, string name, string credType);
+
+        void SetRoles(IReadOnlyList<Guid> roles);
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
@@ -18,8 +16,8 @@ namespace DeviousCreation.CqrsIdentity.Queries
 {
     public class UserQueries : IUserQueries
     {
-        private readonly IDbConnectionProvider _dbConnectionProvider;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IDbConnectionProvider _dbConnectionProvider;
 
         public UserQueries(IDbConnectionProvider dbConnectionProvider, ICurrentUserService currentUserService)
         {
@@ -27,14 +25,15 @@ namespace DeviousCreation.CqrsIdentity.Queries
             this._currentUserService = currentUserService;
         }
 
-        public async Task<StatusCheckModel> CheckForPresenceOfUserByUsername(string username, CancellationToken cancellationToken)
+        public async Task<StatusCheckModel> CheckForPresenceOfUserByUsername(string username,
+            CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
             parameters.Add("username", username, DbType.String);
 
             var command = new CommandDefinition(
                 "select top 1 username from [identity].[user] where username = @username",
-                parameters: parameters,
+                parameters,
                 cancellationToken: cancellationToken);
 
             using var connection = this._dbConnectionProvider.Connection;
@@ -45,14 +44,15 @@ namespace DeviousCreation.CqrsIdentity.Queries
             return new StatusCheckModel(dtos.Length > 0);
         }
 
-        public async Task<StatusCheckModel> CheckForPresenceOfUserByEmailAddress(string emailAddress, CancellationToken cancellationToken)
+        public async Task<StatusCheckModel> CheckForPresenceOfUserByEmailAddress(string emailAddress,
+            CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
             parameters.Add("emailAddress", emailAddress, DbType.String);
 
             var command = new CommandDefinition(
                 "select top 1 emailAddress from [identity].[user] where emailAddress = @emailAddress",
-                parameters: parameters,
+                parameters,
                 cancellationToken: cancellationToken);
 
             using var connection = this._dbConnectionProvider.Connection;
@@ -101,21 +101,24 @@ namespace DeviousCreation.CqrsIdentity.Queries
             return new StatusCheckModel(dtos.Length > 0);
         }
 
-        public async Task<Maybe<SystemProfile>> GetSystemProfileByUserId(Guid userId, CancellationToken cancellationToken)
+        public async Task<Maybe<SystemProfile>> GetSystemProfileByUserId(Guid userId,
+            CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
             parameters.Add("userId", userId, DbType.Guid);
 
             var command = new CommandDefinition(
-                "SELECT u.Username, u.EmailAddress, p.FirstName, p.LastName FROM [Identity].[User] u left join [Identity].[Profile] p on u.Id = p.UserId WHERE u.Id = @userId",
+                "SELECT u.Username, u.EmailAddress, p.FirstName, p.LastName, u.IsAdmin FROM [Identity].[User] u left join [Identity].[Profile] p on u.Id = p.UserId WHERE u.Id = @userId;" +
+                "SELECT r.NormalizedName FROM[Identity].[UserRole] uR JOIN[AccessProtection].[RoleResource] rR ON rR.RoleId = uR.RoleId JOIN[AccessProtection].[Resource] r ON r.Id = rR.ResourceId WHERE uR.UserId = @userId;",
                 parameters,
                 cancellationToken: cancellationToken);
 
             using var connection = this._dbConnectionProvider.Connection;
             connection.Open();
 
-            var res = await connection.QueryAsync<SystemProfileDto>(command);
-            var dtos = res as SystemProfileDto[] ?? res.ToArray();
+            var res = await connection.QueryMultipleAsync(command);
+            var profileResult = await res.ReadAsync<SystemProfileDto>();
+            var dtos = profileResult as SystemProfileDto[] ?? profileResult.ToArray();
             if (dtos.Length != 1)
             {
                 return Maybe<SystemProfile>.Nothing;
@@ -123,11 +126,15 @@ namespace DeviousCreation.CqrsIdentity.Queries
 
             var entity = dtos.Single();
 
+            var resourceResult = await res.ReadAsync<string>();
+
             return Maybe.From(
-                new SystemProfile(entity.EmailAddress, entity.FirstName, entity.LastName, entity.Username));
+                new SystemProfile(entity.EmailAddress, entity.FirstName, entity.LastName, entity.Username,
+                    entity.IsAdmin, resourceResult.ToList()));
         }
 
-        public async Task<Maybe<ListResult<DeviceInfo>>> GetDeviceInfoForCurrentUser(CancellationToken cancellationToken)
+        public async Task<Maybe<ListResult<DeviceInfo>>> GetDeviceInfoForCurrentUser(
+            CancellationToken cancellationToken)
         {
             var currentUserMaybe = this._currentUserService.CurrentUser;
             if (currentUserMaybe.HasNoValue)
@@ -152,11 +159,13 @@ namespace DeviousCreation.CqrsIdentity.Queries
             {
                 return Maybe<ListResult<DeviceInfo>>.Nothing;
             }
-            
-            return Maybe.From( new ListResult<DeviceInfo>(dtos.Select(x=> new DeviceInfo(x.Id, x.Name, x.CredentialId, x.PublicKey))));
+
+            return Maybe.From(new ListResult<DeviceInfo>(dtos.Select(x =>
+                new DeviceInfo(x.Id, x.Name, x.CredentialId, x.PublicKey))));
         }
 
-        public async Task<StatusCheckModel> CheckForPresenceOfDeviceForCurrentUserByName(string name, CancellationToken cancellationToken)
+        public async Task<StatusCheckModel> CheckForPresenceOfDeviceForCurrentUserByName(string name,
+            CancellationToken cancellationToken)
         {
             var currentUserMaybe = this._currentUserService.CurrentUser;
             if (currentUserMaybe.HasNoValue)

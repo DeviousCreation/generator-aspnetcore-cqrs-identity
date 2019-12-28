@@ -73,8 +73,10 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
            
 
             var user = new User(Guid.NewGuid(), request.EmailAddress, request.Username,
-                this._passwordHasher.HashPassword(this._passwordGenerator.Generate()), request.IsLockable,
+                this._passwordHasher.HashPassword(this._passwordGenerator.Generate()), request.IsLockable, request.IsAdmin,
                 this._clock.GetCurrentInstant().ToDateTimeUtc());
+
+            user.SetRoles(request.Roles);
 
             user.GenerateNewAccountConfirmationToken(
                 whenHappened, whenHappened.AddHours(this._identitySettings.ConfirmationTokenLifetime));

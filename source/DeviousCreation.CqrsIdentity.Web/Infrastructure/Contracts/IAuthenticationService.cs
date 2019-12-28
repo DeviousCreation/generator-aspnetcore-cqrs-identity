@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Queries.Contracts;
+using DeviousCreation.CqrsIdentity.Web.Infrastructure.Constants;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -71,7 +72,15 @@ namespace DeviousCreation.CqrsIdentity.Web.Infrastructure.Contracts
                         new Claim(ClaimTypes.GivenName, systemProfile.FirstName),
                         new Claim(ClaimTypes.Name, systemProfile.LastName),
                         new Claim(ClaimTypes.NameIdentifier, systemProfile.Username),
+                        
                     };
+
+            if (systemProfile.IsAdmin)
+            {
+                realClaims.Add(new Claim(CustomClaimTypes.IsAdmin, "1"));
+            }
+            realClaims.AddRange(systemProfile.Resources.Select(x => new Claim(ClaimTypes.Role, x)));
+            
 
             var claimsIdentity = new ClaimsIdentity(
                 realClaims, CookieAuthenticationDefaults.AuthenticationScheme);

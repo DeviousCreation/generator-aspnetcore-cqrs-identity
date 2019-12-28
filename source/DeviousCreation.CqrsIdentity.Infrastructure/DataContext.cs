@@ -165,9 +165,10 @@ namespace DeviousCreation.CqrsIdentity.Infrastructure
             {
                 a.ToTable("userRole", "identity");
                 a.HasKey(entity => entity.Id);
-                a.WithOwner().HasForeignKey(x => x.Id);
+                //a.WithOwner().HasForeignKey(x => x.Id);
                 a.HasKey(e => e.Id);
-                a.Property(x => x.Id).HasColumnName("UserId");
+                a.Property(e => e.Id).ValueGeneratedNever();
+                a.Property(x => x.Id).HasColumnName("RoleId");
                 a.Ignore(b => b.DomainEvents);
             });
         }

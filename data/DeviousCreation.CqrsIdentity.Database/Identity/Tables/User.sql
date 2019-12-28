@@ -7,6 +7,7 @@
     [WhenVerified] DATETIME2 NULL, 
     [WhenPasswordChanged] DATETIME2 NULL, 
     [IsLockable] BIT NOT NULL, 
+	[IsAdmin] BIT NOT NULL DEFAULT 0,
     [SignInAttempts] INT NOT NULL, 
     [WhenLocked] DATETIME2 NULL, 
     [WhenCreated] DATETIME2 NOT NULL, 

@@ -19,7 +19,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
         private readonly List<AuthenticatorApp> _authenticatorApps;
         private readonly List<AuthenticatorDevice> _authenticatorDevices;
 
-        public User(Guid id, string emailAddress, string username, string passwordHash, bool isLockable, DateTime whenCreated)
+        public User(Guid id, string emailAddress, string username, string passwordHash, bool isLockable, bool isAdmin, DateTime whenCreated)
             : this()
         {
             this.Id = id;
@@ -27,6 +27,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
             this.Username = username;
             this.PasswordHash = passwordHash;
             this.IsLockable = isLockable;
+            this.IsAdmin = isAdmin;
             this.WhenCreated = whenCreated;
         }
 
@@ -53,6 +54,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
         public DateTime? WhenPasswordChanged { get; private set; }
 
         public bool IsLockable { get; private set; }
+        public bool IsAdmin { get; private set; }
 
         public int SignInAttempts { get; private set; }
 
@@ -232,6 +234,11 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
             var authenticatorDevice = new AuthenticatorDevice(id, whenEnrolled, publicKey, credentialId,aaguid, counter, name, credType);
             this._authenticatorDevices.Add(authenticatorDevice);
             return authenticatorDevice;
+        }
+
+        public void SetRoles(IReadOnlyList<Guid> roles)
+        {
+            this._userRoles.AddRange(roles.Select(x => new UserRole(x)));
         }
     }
 }

@@ -66,7 +66,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
             }
 
             var user = new User(Guid.NewGuid(), request.EmailAddress, request.Username,
-                this._passwordHasher.HashPassword(request.Password), false,
+                this._passwordHasher.HashPassword(request.Password), false, true,
                 this._clock.GetCurrentInstant().ToDateTimeUtc());
 
             //user.UpdateProfile(request.FirstName, request.LastName);

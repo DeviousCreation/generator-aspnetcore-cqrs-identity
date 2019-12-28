@@ -3,58 +3,75 @@
 @{
 }
 
-<div class="container-fluid">
-    <div class="row page-titles">
-        <div class="col-md-5 col-8 align-self-center">
-            <h3 class="text-themecolor m-b-0 m-t-0">Create User</h3>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-page="/App/Index">Home</a></li>
-                <li class="breadcrumb-item">User Management</li>
-                <li class="breadcrumb-item"><a asp-page="/App/UserManagement/Index"></a>Users</li>
-                <li class="breadcrumb-item active">Create User</li>
-            </ol>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-8">
-            <!-- Column -->
-            <div class="card">
-                <div class="card-body">
-                    <h2>Create New User</h2>
-                    <form method="post">
-                        <div class="form-group row">
-                            <label class="col-2 col-form-label" asp-for="PageModel.Username"></label>
-                            <div class="col-10">
-                                <input class="form-control" asp-for="PageModel.Username" />
-                                <span class="text-danger" asp-validation-for="PageModel.Username"></span>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-2 col-form-label" asp-for="PageModel.EmailAddress"></label>
-                            <div class="col-10">
-                                <input class="form-control" asp-for="PageModel.EmailAddress" />
-                                <span class="text-danger" asp-validation-for="PageModel.EmailAddress"></span>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label asp-for="PageModel.IsLockable" class="checkbox checkbox-primary p-t-0">
-                                <input asp-for="PageModel.IsLockable" type="checkbox" class="filled-in" data-val="false">
-                                <label asp-for="PageModel.IsLockable"></label>
-                            </label>
-                        </div>
-
-                        
-                        <div class="form-group row mb-0">
-                            <div class="col-6">
-                                <a class="btn btn-secondary cancel" asp-page="/Dashboard/Users/Index">Go Back</a>
-                            </div>
-                            <div class="col-6 text-right">
-                                <button class="btn btn-info text-white mr-2" type="submit">Create</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-5 col-8 align-self-center">
+                <h3 class="text-themecolor m-b-0 m-t-0">Create User</h3>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="/App/Index">Home</a></li>
+                    <li class="breadcrumb-item">User Management</li>
+                    <li class="breadcrumb-item"><a asp-page="/App/UserManagement/Index"></a>Users</li>
+                    <li class="breadcrumb-item active">Create New User</li>
+                </ol>
             </div>
         </div>
-    </div>
+        <form method="post">
+            <div class="row">
+                <div class="col-7">
+                    <!-- Column -->
+                    <div class="card card-outline-info">
+                        <div class="card-header">
+                            <h4 class="mb-0 text-white">Details</h4>
+                        </div>
+                        <div class="card-body">
+
+
+                            <div class="form-group">
+                                <label  asp-for="PageModel.Username"></label>
+                                <input class="form-control" asp-for="PageModel.Username"/>
+                                <span class="text-danger" asp-validation-for="PageModel.Username"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PageModel.EmailAddress"></label>
+                                <input class="form-control" asp-for="PageModel.EmailAddress"/>
+                                <span class="text-danger" asp-validation-for="PageModel.EmailAddress"></span>
+                            </div>
+                            <div class="form-check pl-0">
+                                <input asp-for="PageModel.IsLockable"  class="form-check-input" type="checkbox" class="filled-in" data-val="false">
+                                <label class="form-check-label" asp-for="PageModel.IsLockable"></label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                
+                <div class="col-5">
+                    <div class="card card-outline-info">
+                        <div class="card-header">
+                            <h4 class="mb-0 text-white">Roles</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check pl-0">
+                                <input asp-for="PageModel.IsAdmin" class="form-check-input" type="checkbox" class="filled-in" data-val="false">
+                                <label class="form-check-label" asp-for="PageModel.IsAdmin"></label>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PageModel.Roles"></label>
+                                <select multiple class="form-control" asp-for="PageModel.Roles" asp-items="Model.AvalibleRoles"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <a class="btn btn-secondary cancel" asp-page="/Dashboard/Users/Index">Go Back</a>
+                </div>
+                <div class="col-6 text-right">
+                    <button class="btn btn-info text-white mr-2" type="submit">Create</button>
+                </div>
+            </div>
+        </form>
 </div>

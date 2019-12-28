@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using DeviousCreation.CqrsIdentity.Queries.Contracts;
 using DeviousCreation.CqrsIdentity.Queries.Models;
 using DeviousCreation.CqrsIdentity.Queries.Models.Role;
-using DeviousCreation.CqrsIdentity.Queries.Models.User;
 using DeviousCreation.CqrsIdentity.Queries.TransferObjects;
 using DeviousCreation.CqrsIdentity.Queries.TransferObjects.Role;
-using DeviousCreation.CqrsIdentity.Queries.TransferObjects.User;
 using MaybeMonad;
 
 namespace DeviousCreation.CqrsIdentity.Queries
@@ -26,14 +22,15 @@ namespace DeviousCreation.CqrsIdentity.Queries
             this._dbConnectionProvider = dbConnectionProvider;
         }
 
-        public async Task<StatusCheckModel> CheckForPresenceOfRoleByName(string name, CancellationToken cancellationToken)
+        public async Task<StatusCheckModel> CheckForPresenceOfRoleByName(string name,
+            CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
             parameters.Add("name", name, DbType.String);
 
             var command = new CommandDefinition(
                 "select top 1 name from [AccessProtection].[Role] where name = @name",
-                parameters: parameters,
+                parameters,
                 cancellationToken: cancellationToken);
 
             using var connection = this._dbConnectionProvider.Connection;
@@ -44,7 +41,8 @@ namespace DeviousCreation.CqrsIdentity.Queries
             return new StatusCheckModel(dtos.Length > 0);
         }
 
-        public async Task<StatusCheckModel> CheckForPresenceOfRoleByNameWithIdExclusion(string name, Guid idToExclude, CancellationToken cancellationToken)
+        public async Task<StatusCheckModel> CheckForPresenceOfRoleByNameWithIdExclusion(string name, Guid idToExclude,
+            CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
@@ -54,12 +52,12 @@ namespace DeviousCreation.CqrsIdentity.Queries
             throw new NotImplementedException();
         }
 
-        public async Task<Maybe<ListResult<SimpleResource>>> GetNestedSimpleResources(CancellationToken cancellationToken)
+        public async Task<Maybe<ListResult<SimpleResource>>> GetNestedSimpleResources(
+            CancellationToken cancellationToken)
         {
- 
             var command = new CommandDefinition(
                 "SELECT Id, Name, ParentResourceId FROM [AccessProtection].[Resource]",
- cancellationToken: cancellationToken);
+                cancellationToken: cancellationToken);
 
             using var connection = this._dbConnectionProvider.Connection;
             connection.Open();
@@ -75,7 +73,6 @@ namespace DeviousCreation.CqrsIdentity.Queries
                 i => new SimpleResource(i.Id, i.Name, i.ParentResourceId)
             ).ToList();
 
-
             foreach (var i in items)
             {
                 i.SetSimpleResources(items.Where(n => n.ParentId == i.Id).ToList());
@@ -84,5 +81,23 @@ namespace DeviousCreation.CqrsIdentity.Queries
             return Maybe.From(new ListResult<SimpleResource>(items.Where(n => n.ParentId == Guid.Empty)));
         }
 
+        public async Task<Maybe<ListResult<SimpleRole>>> GetSimpleRoles(CancellationToken cancellationToken)
+        {
+            var command = new CommandDefinition(
+                "SELECT Id, Name FROM [AccessProtection].[Role]",
+                cancellationToken: cancellationToken);
+
+            using var connection = this._dbConnectionProvider.Connection;
+            connection.Open();
+
+            var res = await connection.QueryAsync<SimpleRoleDto>(command);
+            var dtos = res as SimpleRoleDto[] ?? res.ToArray();
+            if (dtos.Length < 1)
+            {
+                return Maybe<ListResult<SimpleRole>>.Nothing;
+            }
+
+            return Maybe.From(new ListResult<SimpleRole>(dtos.Select(x => new SimpleRole(x.Id, x.Name))));
+        }
     }
 }
