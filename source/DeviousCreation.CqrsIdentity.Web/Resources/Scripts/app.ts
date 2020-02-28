@@ -1,5 +1,8 @@
 import { Validator } from './services/validator';
 import { AppInsights } from 'applicationinsights-js';
+import Swal  from 'sweetalert2'
+import 'bootstrap'
+import 'metismenu'
 
 class App {
 
@@ -20,6 +23,8 @@ class App {
 
         this.setupAppInsights();
         this.setupNavbar();
+        this.publishPageNotifications();
+        this.setupPostableAnchors();
     }
 
     private setupAppInsights(): void {
@@ -48,6 +53,8 @@ class App {
             })
 
             this.windowResizeListener();
+
+            $('#sidebarnav').metisMenu();
             
         }
     }
@@ -76,6 +83,47 @@ class App {
         const headerHeight: number = this.header.clientHeight;
         this.pageWrapper.style.paddingTop =  headerHeight + 'px';
         
+    }
+
+    private publishPageNotifications() {
+        var pageNotifications = document.querySelectorAll('span[data-page-notification]');
+        if (pageNotifications.length) {
+            pageNotifications.forEach((value) => {
+                var pageNotification = value as HTMLSpanElement;
+                Swal.fire({
+                    titleText: pageNotification.dataset.title,
+                    text: pageNotification.dataset.message,
+                    toast: true,
+                    position: "top-end",
+                    timer: 4500,
+                    showConfirmButton: false
+                });
+            }, this)
+        }
+    }
+
+    private setupPostableAnchors() {
+        const anchors = document.querySelectorAll('a[data-postable]');
+        if (anchors && anchors.length) {
+            anchors.forEach((anchor: HTMLAnchorElement) => {
+                anchor.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    var target = e.currentTarget as HTMLAnchorElement;
+                    var myForm = document.createElement("form");
+                    var requestVerificationToken = document.createElement('input') as HTMLInputElement
+                    requestVerificationToken.name = '__RequestVerificationToken';
+                    requestVerificationToken.value = target.dataset.postable;
+                    requestVerificationToken.type = 'hidden';
+                    myForm.appendChild(requestVerificationToken)
+                    myForm.action=target.href;// the href of the link
+                    //myForm.target="myFrame";
+                    myForm.method="POST";
+                    document.body.appendChild(myForm);
+                    myForm.submit();
+                    return false; // cancel the actual link
+                })
+            })
+        }
     }
 }
 

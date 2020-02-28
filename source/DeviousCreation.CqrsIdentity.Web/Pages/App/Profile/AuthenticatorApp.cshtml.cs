@@ -6,37 +6,33 @@ using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core.Contracts;
 using DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate;
 using DeviousCreation.CqrsIdentity.Queries.Contracts;
-using DeviousCreation.CqrsIdentity.Web.Infrastructure.Attributes;
 using DeviousCreation.CqrsIdentity.Web.Infrastructure.Constants;
+using DeviousCreation.CqrsIdentity.Web.Pages.App.UserManagement.Users;
 using JetBrains.Annotations;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
 using QRCoder;
 
 namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
 {
-    [ModelStatePersistence]
-    public class AuthenticatorApp : PageModel
+    [Authorize]
+    public class AuthenticatorApp : PrgPageModel<AuthenticatorApp.Model>
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IDomainHelpers _domainHelpers;
         private readonly IMediator _mediator;
         private readonly IUserQueries _userQueries;
 
-        public AuthenticatorApp([NotNull] IMediator mediator, ICurrentUserService currentUserService,
-            IUserQueries userQueries, IDomainHelpers domainHelpers)
+        public AuthenticatorApp([NotNull] IMediator mediator, [NotNull] ICurrentUserService currentUserService,
+            [NotNull] IUserQueries userQueries, [NotNull] IDomainHelpers domainHelpers)
         {
-            this._currentUserService = currentUserService;
-            this._userQueries = userQueries;
-            this._domainHelpers = domainHelpers;
+            this._currentUserService =
+                currentUserService ?? throw new ArgumentNullException(nameof(currentUserService));
+            this._userQueries = userQueries ?? throw new ArgumentNullException(nameof(userQueries));
+            this._domainHelpers = domainHelpers ?? throw new ArgumentNullException(nameof(domainHelpers));
             this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
-
-
-        [BindProperty]
-        public Model PageModel { get; set; }
 
         public string SharedKey { get; set; }
 
@@ -44,15 +40,11 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
 
         public string Code { get; set; }
 
-        [TempData]
-        public PrgState PrgState { get; set; }
-
         public bool IsSetup { get; set; }
-
 
         public async Task<IActionResult> OnGet()
         {
-            var userCheck = await this._userQueries.CheckCurrentUserHasAuthApp(CancellationToken.None);
+            var userCheck = await this._userQueries.CheckCurrentUserHasAuthApp();
 
             if (userCheck.IsPresent)
             {
@@ -60,11 +52,6 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
             }
             else
             {
-                if (this.TempData.ContainsKey("PageModel"))
-                {
-                    this.PageModel = JsonConvert.DeserializeObject<Model>(this.TempData["PageModel"] as string);
-                }
-
                 if (this.PageModel == null)
                 {
                     var result = await this._mediator.Send(new InitiatelAuthenticatorAppEnrollmentCommand());
@@ -75,7 +62,7 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
 
                     this.PageModel = new Model
                     {
-                        SharedKey = result.Value.SharedKey
+                        SharedKey = result.Value.SharedKey,
                     };
                 }
 
@@ -88,8 +75,8 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
                 var currentUser = currentUserMaybe.Value;
                 this.SharedKey = this._domainHelpers.FormatAuthenticatorAppKey(this.PageModel.SharedKey);
                 this.AuthenticatorUri =
-                    this._domainHelpers.GenerateAuthenticatorAppQrCodeUri(currentUser.Username,
-                        this.PageModel.SharedKey);
+                    this._domainHelpers.GenerateAuthenticatorAppQrCodeUri(
+                        currentUser.Username, this.PageModel.SharedKey);
                 var qrGenerator = new QRCodeGenerator();
 
                 var qrCodeData = qrGenerator.CreateQrCode(this.AuthenticatorUri, QRCodeGenerator.ECCLevel.Q);
@@ -97,18 +84,16 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
                 var qrCode = new QRCode(qrCodeData);
                 var qrCodeImage = qrCode.GetGraphic(20);
 
-                using (var stream = new MemoryStream())
-                {
-                    qrCodeImage.Save(stream, ImageFormat.Png);
-                    var bytes = stream.ToArray();
-                    this.Code = Convert.ToBase64String(bytes);
-                }
+                await using var stream = new MemoryStream();
+                qrCodeImage.Save(stream, ImageFormat.Png);
+                var bytes = stream.ToArray();
+                this.Code = Convert.ToBase64String(bytes);
             }
 
             return this.Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPost()
         {
             if (!this.ModelState.IsValid)
             {
@@ -120,11 +105,11 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
                     new EnrollAuthenticatorAppCommand(this.PageModel.SharedKey, this.PageModel.Code));
             if (result.IsSuccess)
             {
+                this.AddPageNotification("App Setup", "The app has been registered");
                 this.PrgState = PrgState.Success;
             }
             else
             {
-                this.TempData.Add("PageModel", JsonConvert.SerializeObject(this.PageModel));
                 this.PrgState = PrgState.Failed;
             }
 
@@ -137,6 +122,7 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
             if (result.IsSuccess)
             {
                 this.PrgState = PrgState.Success;
+                this.AddPageNotification("App Setup", "The app has been revoked");
             }
             else
             {
@@ -145,7 +131,6 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
 
             return this.RedirectToPage();
         }
-
 
         public class Model
         {

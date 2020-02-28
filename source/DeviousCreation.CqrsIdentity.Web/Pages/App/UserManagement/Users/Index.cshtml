@@ -74,34 +74,23 @@
             <!-- Column -->
             <div class="card">
                 <div class="card-body">
+                    <a asp-page="/App/UserManagement/Users/CreateUser" class="btn btn-sm float-right btn-info text-white">Create new user</a>
                     <h3 class="card-title">User Management</h3>
-                    <h6 class="card-subtitle">Create new, edit existing, or change the password of the users of TenantInfo.Name</h6>
+                    <h6 class="card-subtitle">Create new, edit existing, or delete users</h6>
                     <div class="table-responsive">
                         <table class="table" id="users">
                             <thead>
                                 <tr>
-                                    <th>@Html.DisplayName("User Name")</th>
-                                    <th>@Html.DisplayName("Email")</th>
-                                    @*    <th>@Html.DisplayName("LastLogin")</th>
-        <th>@Html.DisplayName("Role")</th>
-        <th>@Html.DisplayName("Lock out Enabled")</th>
-        <th>@Html.DisplayName("Status")</th>
-        <th></th>
-        <th></th>*@
-        <th>Actions</th>
+                                    <th>User Name</th>
+                                    <th>Email Address</th>
+                                    <th>Locked</th>
+                                    <th>Last Login</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            
                             </tbody>
                         </table>
-                        <div class="d-flex justify-content-between">
-                            <div class="mr-auto">
-                                <a asp-page="/App/UserManagement/Users/Create" class="btn btn-info text-white">Create new user</a>
-                            </div>
-                            <nav aria-label="Page navigation ml-auto">
-                            </nav>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -112,7 +101,7 @@
 {
     <script type="text/x-template" id="actions">
         <div>
-            <a data-edit href="@Url.PageLink(pageName: "/App/UserManagement/Users/Edit", values: new {id = "__ID__"})">Edit</a>
+            <a data-edit href="@Url.PageLink(pageName: "/App/UserManagement/Users/EditUser", values: new {id = "__ID__"})">Edit</a>
         </div>
     </script>
     <script src="~/user-listing.js" asp-append-version="true"></script>

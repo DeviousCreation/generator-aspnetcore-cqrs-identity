@@ -36,9 +36,20 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.RoleAggregate
             this.Name = name;
         }
 
-        public void SetRoles(IReadOnlyList<Guid> roles)
+        public void SetResources(IReadOnlyList<Guid> resources)
         {
-            this._roleResources.AddRange(roles.Select(x=> new RoleResource(x)));
+            var distinctResources = resources.Distinct().ToList();
+            var currentResources = this._roleResources.Select(x => x.Id).ToList();
+            var toAdd = distinctResources.Except(currentResources);
+            var toRemove = currentResources.Except(distinctResources);
+
+
+            foreach (var item in toRemove)
+            {
+                this._roleResources.Remove(this._roleResources.Single(x => x.Id == item));
+            }
+            
+            this._roleResources.AddRange(toAdd.Select(x=> new RoleResource(x)));
         }
     }
 }

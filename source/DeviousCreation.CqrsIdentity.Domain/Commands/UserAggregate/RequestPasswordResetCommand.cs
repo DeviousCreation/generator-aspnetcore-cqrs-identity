@@ -8,11 +8,11 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate
 {
     public sealed class RequestPasswordResetCommand : IRequest<ResultWithError<ErrorData>>
     {
-        public RequestPasswordResetCommand(string credential)
+        public RequestPasswordResetCommand(string emailAddress)
         {
-            this.Credential = credential;
+            this.EmailAddress = emailAddress;
         }
 
-        public string Credential { get; }
+        public string EmailAddress { get; }
     }
 }

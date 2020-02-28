@@ -1,0 +1,63 @@
+﻿@page
+@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery AntiForgery;
+@using DeviousCreation.CqrsIdentity.Web.Infrastructure.Constants
+@model DeviousCreation.CqrsIdentity.Web.Pages.Auth.RemoteVerification
+@{
+}
+<section id="wrapper" class="login-register login-sidebar" style="background-image:url(https://picsum.photos/1920/1080);">
+    <div class="login-box card">
+        <div class="card-body">
+            <form class="form-horizontal form-material" asp-antiforgery="true" method="post">
+                <a href="#" class="text-center d-block"><img src="~/myci-logo-100.png" alt="Home" /></a>
+                <div class="form-group mt-4">
+                    <div class="col-xs-12">
+                        <input class="form-control" type="text" asp-for="PageModel.Code" placeholder="Core">
+                        <span asp-validation-for="PageModel.Code"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="d-flex no-block align-items-center justify-content-end">
+
+                        <a asp-page="@(PageLocations.Auth_RemoteVerification)" asp-page-handler="SendEmail" data-postable="@AntiForgery.GetAndStoreTokens(HttpContext).RequestToken" id="to-recover" class="text-muted"><i class="fa fa-lock mr-1"></i> Resend code</a>
+
+                    </div>
+                </div>
+                <div class="form-group text-center mt-3">
+                    <div class="col-xs-12">
+                        <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Authenticate</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="message-box contact-box">
+
+                <div class="message-widget contact-widget">
+                    <!-- Message -->
+                    @if (this.Model.HasAuthApp)
+                    {
+                        <a asp-page="@(PageLocations.Auth_AppVerification)">
+                            <div class="user-img">
+                                <span class="round"><i class="icon-lock"></i></span>
+                            </div>
+                            <div class="mail-contnet">
+                                <h5>Authenticator App</h5> <span class="mail-desc">&nbsp;</span>
+                            </div>
+                        </a>
+                    }
+                    @if (this.Model.HasAuthDevice)
+                    {
+                        <a asp-page="@(PageLocations.Auth_DeviceVerification)">
+                            <div class="user-img">
+                                <span class="round"><i class="icon-usb"></i></span>
+                            </div>
+                            <div class="mail-contnet">
+                                <h5>Authenticator Device</h5> <span class="mail-desc">&nbsp;</span>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

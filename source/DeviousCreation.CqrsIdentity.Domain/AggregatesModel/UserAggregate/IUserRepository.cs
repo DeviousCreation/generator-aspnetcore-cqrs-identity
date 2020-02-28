@@ -10,8 +10,6 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
 {
     public interface IUserRepository : IRepository<IUser>
     {
-        Task<Maybe<IUser>> FindByUsername(string username, CancellationToken cancellationToken);
-
         Task<Maybe<IUser>> FindByEmailAddress(string emailAddress, CancellationToken cancellationToken);
 
         void Update(IUser user);

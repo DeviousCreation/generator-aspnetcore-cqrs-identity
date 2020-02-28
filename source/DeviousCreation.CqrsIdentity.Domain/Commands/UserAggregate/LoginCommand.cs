@@ -9,13 +9,13 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate
 {
     public sealed class LoginCommand : IRequest<Result<LoginCommandResult, ErrorData>>
     {
-        public LoginCommand(string credential, string password)
+        public LoginCommand(string emailAddress, string password)
         {
-            this.Credential = credential;
+            this.EmailAddress = emailAddress;
             this.Password = password;
         }
 
-        public string Credential { get; }
+        public string EmailAddress { get; }
 
         public string Password { get; }
     }

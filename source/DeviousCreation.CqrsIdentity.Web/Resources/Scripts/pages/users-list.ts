@@ -34,9 +34,10 @@ export class UsersList {
     }
 
     renderActions(data: any, type: any, row: any, meta: DataTables.CellMetaSettings): any {
-        const editAnchor = this.actions.find('a[data-edit]')
+        const newActions = this.actions.clone()
+        const editAnchor = newActions.find('a[data-edit]')
         editAnchor.attr('href', editAnchor.attr('href').replace('__ID__', data));
-        return this.actions[0].innerHTML;
+        return newActions[0].innerHTML;
     }
 
 }

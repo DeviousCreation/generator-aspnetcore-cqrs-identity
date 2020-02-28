@@ -2,21 +2,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate;
 using DeviousCreation.CqrsIdentity.Queries.Contracts;
-using DeviousCreation.CqrsIdentity.Web.Infrastructure.Attributes;
 using DeviousCreation.CqrsIdentity.Web.Infrastructure.Constants;
+using DeviousCreation.CqrsIdentity.Web.Pages.App.UserManagement.Users;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 
 namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
 {
-    [ModelStatePersistence]
-    public class Details : PageModel
+    public class Details : PrgPageModel<Details.Model>
     {
-        private readonly IUserQueries _userQueries;
         private readonly IMediator _mediator;
+        private readonly IUserQueries _userQueries;
 
         public Details(IUserQueries userQueries, IMediator mediator)
         {
@@ -24,20 +22,10 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
             this._mediator = mediator;
         }
 
-        [BindProperty]
-        public Model PageModel { get; set; }
-
-        [TempData]
-        public PrgState PrgState { get; set; }
-
         public async Task<IActionResult> OnGetAsync()
         {
-            if (this.TempData.ContainsKey("Details.PageModel"))
-            {
-                this.PageModel = JsonConvert.DeserializeObject<Model>(this.TempData["Details.PageModel"] as string);
-            }
-            else
-            {
+            if (this.PageModel == null)
+            { 
                 var profile = await this._userQueries.GetSystemProfileForCurrentUser(CancellationToken.None);
                 if (profile.HasNoValue)
                 {
@@ -60,20 +48,21 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
         {
             if (!this.ModelState.IsValid)
             {
-                this.TempData.Add("PageModel", JsonConvert.SerializeObject(this.PageModel));
+               
                 return this.RedirectToPage();
             }
 
             var result =
                 await this._mediator.Send(
-                    new UpdateProfileCommand(this.PageModel.FirstName, this.PageModel.LastName, this.PageModel.EmailAddress));
+                    new UpdateProfileCommand(this.PageModel.FirstName, this.PageModel.LastName,
+                        this.PageModel.EmailAddress));
             if (result.IsSuccess)
             {
                 this.PrgState = PrgState.Success;
             }
             else
             {
-                this.TempData.Add("PageModel", JsonConvert.SerializeObject(this.PageModel));
+               
                 this.PrgState = PrgState.Failed;
             }
 
@@ -93,7 +82,6 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
 
         public class Validator : AbstractValidator<Model>
         {
-
         }
     }
 }

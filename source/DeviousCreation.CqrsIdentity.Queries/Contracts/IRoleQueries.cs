@@ -18,6 +18,11 @@ namespace DeviousCreation.CqrsIdentity.Queries.Contracts
         Task<StatusCheckModel> CheckForRoleUsageById(Guid id, CancellationToken cancellationToken);
 
         Task<Maybe<ListResult<SimpleResource>>> GetNestedSimpleResources(CancellationToken cancellationToken);
+        Task<Maybe<ListResult<SimpleResource>>> GetNestedSimpleResourcesAvailableForUser(Guid userId, CancellationToken cancellationToken);
         Task<Maybe<ListResult<SimpleRole>>> GetSimpleRoles(CancellationToken cancellationToken);
+        Task<Maybe<ListResult<SimpleResource>>> GetResourcesByRoleId(Guid roleId, CancellationToken cancellationToken);
+        Task<Maybe<DetailedRole>> GetRoleDetailsForRoleByRoleId(Guid id, CancellationToken cancellationToken);
+        Task<Maybe<ListResult<SimpleResource>>> GetSimpleResourcesAvailableForUser(Guid userId, CancellationToken cancellationToken);
+        Task<Maybe<ListResult<SimpleResource>>> GetSimpleResources(CancellationToken cancellationToken);
     }
 }

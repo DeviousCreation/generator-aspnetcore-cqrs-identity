@@ -9,9 +9,6 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
     public interface IUser : IAggregateRoot, IEntity
     {
         string EmailAddress { get; }
-
-        string Username { get; }
-
         string PasswordHash { get; }
 
         DateTime? WhenVerified { get; }
@@ -77,5 +74,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
         AuthenticatorDevice EnrollAuthenticatorDevice(Guid id, DateTime whenEnrolled, byte[] publicKey, byte[] credentialId, Guid aaguid, int counter, string name, string credType);
 
         void SetRoles(IReadOnlyList<Guid> roles);
+        void SetAdminStatus(bool isAdmin);
+        void SetLockableStatus(bool isLockable);
     }
 }

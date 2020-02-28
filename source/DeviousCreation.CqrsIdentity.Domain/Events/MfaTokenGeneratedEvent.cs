@@ -1,15 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using DeviousCreation.CqrsIdentity.Core.Constants;
 using MediatR;
 
 namespace DeviousCreation.CqrsIdentity.Domain.Events
 {
     public class MfaTokenGeneratedEvent : INotification
     {
-        public MfaTokenGeneratedEvent(object requestTwoFactorProvider, Guid userId, string generated)
+        private readonly string _code;
+
+        public MfaTokenGeneratedEvent(RemoteMfaType twoFactorProvider, Guid userId, string code)
         {
-            throw new NotImplementedException();
+            this._code = code;
+            this.TwoFactorProvider = twoFactorProvider;
+            this.UserId = userId;
         }
+
+        public RemoteMfaType TwoFactorProvider { get; }
+
+        public Guid UserId { get; }
     }
 }

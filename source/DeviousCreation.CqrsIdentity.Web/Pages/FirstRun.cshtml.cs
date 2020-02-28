@@ -32,7 +32,6 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages
             this._identitySettings = identitySettings.Value;
         }
 
-  
 
         [BindProperty]
         public Model PageModel { get; set; }
@@ -48,7 +47,6 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages
                 return this.RedirectToPage("/Dashboard/Index");
             }
 
-
             return this.Page();
         }
 
@@ -61,7 +59,6 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages
 
             var res = await this._mediator.Send(new CreateInitialUserCommand(
                 this.PageModel.EmailAddress,
-                this.PageModel.Username,
                 this.PageModel.Password, this.PageModel.FirstName, this.PageModel.LastName));
 
             this.DataSubmitted = true;
@@ -73,7 +70,6 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages
         {
             public string EmailAddress { get; set; }
 
-            public string Username { get; set; }
 
             public string FirstName { get; set; }
 
@@ -97,9 +93,6 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages
                 this.RuleFor(x => x.LastName).NotEmpty().WithMessage("Please enter your last name");
                 this.RuleFor(x => x.EmailAddress).EmailAddress().WithMessage("The email address doesn't look right.")
                     .NotEmpty().WithMessage("Please enter your email address");
-                
-                    this.RuleFor(x => x.Username).NotEmpty().WithMessage("Please enter a username");
-                
 
                 this.RuleFor(x => x.Password).NotEmpty();
                 this.RuleFor(x => x.PasswordConfirmation).Equal(x => x.Password);

@@ -62,8 +62,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
         {
             var whenHappened = this._clock.GetCurrentInstant().ToDateTimeUtc();
 
-            var statusCheck = await this._userQueries.CheckForPresenceOfUserByUsername(request.Username,
-                cancellationToken);
+            var statusCheck = await this._userQueries.CheckForPresenceOfUserByEmailAddress(
+                request.EmailAddress, cancellationToken);
 
             if (statusCheck.IsPresent)
             {
@@ -72,7 +72,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
 
            
 
-            var user = new User(Guid.NewGuid(), request.EmailAddress, request.Username,
+            var user = new User(Guid.NewGuid(), request.EmailAddress, 
                 this._passwordHasher.HashPassword(this._passwordGenerator.Generate()), request.IsLockable, request.IsAdmin,
                 this._clock.GetCurrentInstant().ToDateTimeUtc());
 

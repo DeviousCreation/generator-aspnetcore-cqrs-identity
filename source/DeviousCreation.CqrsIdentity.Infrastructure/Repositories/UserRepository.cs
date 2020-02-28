@@ -22,14 +22,6 @@ namespace DeviousCreation.CqrsIdentity.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => this._dataContext;
 
-        public async Task<Maybe<IUser>> FindByUsername(string username, CancellationToken cancellationToken)
-        {
-            var user = await this._dataContext.Users.SingleOrDefaultAsync(
-                x => x.Username == username, cancellationToken);
-            await this.LoadCollections(user);
-            return Maybe.From<IUser>(user);
-        }
-
         public async Task<Maybe<IUser>> FindByEmailAddress(string emailAddress, CancellationToken cancellationToken)
         {
             var user = await this._dataContext.Users.SingleOrDefaultAsync(

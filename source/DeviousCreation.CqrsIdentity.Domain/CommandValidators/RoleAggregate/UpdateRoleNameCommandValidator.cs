@@ -7,7 +7,7 @@ using FluentValidation;
 
 namespace DeviousCreation.CqrsIdentity.Domain.CommandValidators.RoleAggregate
 {
-    public class UpdateRoleNameCommandValidator : AbstractValidator<UpdateRoleNameCommand>
+    public class UpdateRoleNameCommandValidator : AbstractValidator<UpdateRoleCommand>
     {
         public UpdateRoleNameCommandValidator()
         {

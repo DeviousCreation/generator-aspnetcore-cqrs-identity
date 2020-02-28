@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Core;
 using DeviousCreation.CqrsIdentity.Core.Contracts;
+using DeviousCreation.CqrsIdentity.Web.Infrastructure.Constants;
 using JetBrains.Annotations;
 using MaybeMonad;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +35,8 @@ namespace DeviousCreation.CqrsIdentity.Web.Infrastructure.Services
                     var currentUser = new CurrentUser(
                         Guid.Parse(this._contextAccessor.HttpContext.User.Claims.Single(x => x.Type == ClaimTypes.Upn).Value),
                         this._contextAccessor.HttpContext.User.Claims.Single(x => x.Type == ClaimTypes.Email).Value,
-                        this._contextAccessor.HttpContext.User.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                        this._contextAccessor.HttpContext.User.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value,
+                        this._contextAccessor.HttpContext.User.HasClaim(x => x.Type == CustomClaimTypes.IsAdmin));
                     return currentUser;
                 }
                 else

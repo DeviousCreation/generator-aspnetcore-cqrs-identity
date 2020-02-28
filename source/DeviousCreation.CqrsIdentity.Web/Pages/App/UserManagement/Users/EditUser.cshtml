@@ -1,0 +1,88 @@
+﻿@page "/app/user-management/users/edit/{id}"
+@model DeviousCreation.CqrsIdentity.Web.Pages.App.UserManagement.Users.EditUser
+@{
+}
+
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-5 col-8 align-self-center">
+                <h3 class="text-themecolor m-b-0 m-t-0">Create User</h3>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="/App/Index">Home</a></li>
+                    <li class="breadcrumb-item">User Management</li>
+                    <li class="breadcrumb-item"><a asp-page="/App/UserManagement/Users/Index">Users</a></li>
+                    <li class="breadcrumb-item active">Edit User</li>
+                </ol>
+            </div>
+        </div>
+        <form method="post" data-no-auto-validation>
+            <input asp-for="PageModel.UserId" type="hidden"/>
+            <div class="row">
+                <div class="col-7">
+                    <!-- Column -->
+                    <div class="card card-outline-info">
+                        <div class="card-header">
+                            <h4 class="mb-0 text-white">Details</h4>
+                        </div>
+                        <div class="card-body">
+
+
+                            <div class="form-group">
+                                <label asp-for="PageModel.Username"></label>
+                                <input class="form-control" asp-for="PageModel.Username" />
+                                <span class="text-danger" asp-validation-for="PageModel.Username"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PageModel.EmailAddress"></label>
+                                <input class="form-control" asp-for="PageModel.EmailAddress" />
+                                <span class="text-danger" asp-validation-for="PageModel.EmailAddress"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PageModel.FirstName"></label>
+                                <input class="form-control" asp-for="PageModel.FirstName" />
+                                <span class="text-danger" asp-validation-for="PageModel.FirstName"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PageModel.LastName"></label>
+                                <input class="form-control" asp-for="PageModel.LastName" />
+                                <span class="text-danger" asp-validation-for="PageModel.LastName"></span>
+                            </div>
+                            <div class="form-check pl-0">
+                                <input asp-for="PageModel.IsLockable" class="form-check-input" type="checkbox" class="filled-in" data-val="false">
+                                <label class="form-check-label" asp-for="PageModel.IsLockable"></label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-5">
+                    <div class="card card-outline-info">
+                        <div class="card-header">
+                            <h4 class="mb-0 text-white">Roles</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check pl-0">
+                                <input asp-for="PageModel.IsAdmin" class="form-check-input" type="checkbox" class="filled-in" data-val="false">
+                                <label class="form-check-label" asp-for="PageModel.IsAdmin"></label>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PageModel.Roles"></label>
+                                <select multiple class="form-control" asp-for="PageModel.Roles" asp-items="Model.AvailableRoles"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <a class="btn btn-secondary cancel" asp-page="/App/UserManagement/Users/Index">Go Back</a>
+                </div>
+                <div class="col-6 text-right">
+                    <button class="btn btn-info text-white mr-2" type="submit">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>

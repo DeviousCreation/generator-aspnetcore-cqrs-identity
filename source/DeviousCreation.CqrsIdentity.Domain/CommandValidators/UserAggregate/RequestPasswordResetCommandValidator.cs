@@ -9,7 +9,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandValidators.UserAggregate
     {
         public RequestPasswordResetCommandValidator()
         {
-            this.RuleFor(x => x.Credential).NotNull();
+            this.RuleFor(x => x.EmailAddress).NotNull();
         }
     }
 }

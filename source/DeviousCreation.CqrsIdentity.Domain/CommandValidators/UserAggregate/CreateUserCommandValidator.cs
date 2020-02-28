@@ -9,7 +9,6 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandValidators.UserAggregate
     {
         public CreateUserCommandValidator()
         {
-            this.RuleFor(x => x.Username).NotEmpty();
             this.RuleFor(x => x.EmailAddress).NotEmpty().EmailAddress();
         }
     }

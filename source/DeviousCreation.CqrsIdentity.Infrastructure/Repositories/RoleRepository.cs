@@ -51,7 +51,7 @@ namespace DeviousCreation.CqrsIdentity.Infrastructure.Repositories
 
         public void Update(IRole role)
         {
-            throw new NotImplementedException();
+            this._dataContext.Roles.Update(role as Role);
         }
     }
 }

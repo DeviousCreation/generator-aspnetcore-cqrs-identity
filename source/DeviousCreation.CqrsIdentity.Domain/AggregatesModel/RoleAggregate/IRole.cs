@@ -16,6 +16,6 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.RoleAggregate
 
         void UpdateName(string name);
 
-        void SetRoles(IReadOnlyList<Guid> roles);
+        void SetResources(IReadOnlyList<Guid> resources);
     }
 }

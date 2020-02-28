@@ -1,18 +1,16 @@
 using System;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate;
-using DeviousCreation.CqrsIdentity.Web.Infrastructure.Attributes;
 using DeviousCreation.CqrsIdentity.Web.Infrastructure.Constants;
+using DeviousCreation.CqrsIdentity.Web.Pages.App.UserManagement.Users;
 using FluentValidation;
 using JetBrains.Annotations;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
 {
-    [ModelStatePersistence]
-    public class Password : PageModel
+    public class Password : PrgPageModel<Password.Model>
     {
         private readonly IMediator _mediator;
 
@@ -21,11 +19,6 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.App.Profile
             this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        [BindProperty]
-        public Model PageModel { get; set; }
-
-        [TempData]
-        public PrgState PrgState { get; set; }
 
         public void OnGet()
         {

@@ -42,7 +42,7 @@
                         </table>
                         <div class="d-flex justify-content-between">
                             <div class="mr-auto">
-                                <a asp-page="/App/UserManagement/Users/Create" class="btn btn-info text-white">Create new user</a>
+                                <a asp-page="/App/UserManagement/Roles/Create" class="btn btn-info text-white">Create new Role</a>
                             </div>
                             <nav aria-label="Page navigation ml-auto">
                             </nav>
@@ -57,7 +57,7 @@
 {
     <script type="text/x-template" id="actions">
         <div>
-            <a data-edit href="@Url.PageLink(pageName: "/App/UserManagement/Roles/Edit", values: new {id = "__ID__"})">Edit</a>
+            <a data-edit href="@Url.PageLink(pageName: "/App/UserManagement/Roles/EditRole", values: new {id = "__ID__"})">Edit</a>
         </div>
     </script>
     <script src="~/role-listing.js" asp-append-version="true"></script>

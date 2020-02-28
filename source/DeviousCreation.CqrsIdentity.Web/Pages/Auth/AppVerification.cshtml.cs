@@ -1,37 +1,53 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate;
+using DeviousCreation.CqrsIdentity.Queries.Contracts;
 using DeviousCreation.CqrsIdentity.Web.Infrastructure.Constants;
 using DeviousCreation.CqrsIdentity.Web.Infrastructure.Contracts;
+using DeviousCreation.CqrsIdentity.Web.Pages.App.UserManagement.Users;
 using FluentValidation;
 using JetBrains.Annotations;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DeviousCreation.CqrsIdentity.Web.Pages.Auth
 {
     [Authorize(AuthenticationSchemes = "login-partial")]
-    public class LoginVerification : PageModel
+    public class AppVerification : PrgPageModel<AppVerification.Model>
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IMediator _mediator;
+        private readonly IUserQueries _userQueries;
 
-        public LoginVerification([NotNull] IMediator mediator, [NotNull] IAuthenticationService authenticationService)
+        public AppVerification(
+            [NotNull] IMediator mediator,
+            [NotNull] IAuthenticationService authenticationService,
+            [NotNull] IUserQueries userQueries)
         {
             this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             this._authenticationService =
                 authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
+            this._userQueries = userQueries ?? throw new ArgumentNullException(nameof(userQueries));
         }
 
-        [TempData]
-        public PrgState PrgState { get; set; }
+        public bool HasAuthDevice { get; set; }
 
-        [BindProperty]
-        public Model PageModel { get; set; }
+        public bool HasAuthApp { get; set; }
 
-        public async Task<IActionResult> OnPostAsync()
+        public bool HasMobile { get; set; }
+
+        public async Task OnGet()
+        {
+            var result = await this._userQueries.GetMfaMethodStatusForCurrentUser();
+
+            this.HasMobile = result.HasMobile;
+            this.HasAuthApp = result.HasAuthApp;
+            this.HasAuthDevice = result.HasAuthDevice;
+        }
+
+        public async Task<IActionResult> OnPost()
         {
             if (!this.ModelState.IsValid)
             {
@@ -42,10 +58,11 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.Auth
             if (result.IsSuccess)
             {
                 await this._authenticationService.SignInFromPartial();
-                return this.RedirectToPage("/Dashboard/Index");
+                return this.RedirectToPage(PageLocations.App_Dashboard);
             }
 
             this.PrgState = PrgState.Failed;
+            this.AddPageNotification("Authentication Issue", "There was an issue authenticating you with the app. Please try again.");
             return this.RedirectToPage();
         }
 

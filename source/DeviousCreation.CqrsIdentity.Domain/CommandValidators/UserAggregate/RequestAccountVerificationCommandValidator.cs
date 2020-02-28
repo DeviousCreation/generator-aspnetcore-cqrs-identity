@@ -9,7 +9,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandValidators.UserAggregate
     {
         public RequestAccountVerificationCommandValidator()
         {
-            this.RuleFor(x => x.Credential).NotEmpty();
+            this.RuleFor(x => x.EmailAddress).NotEmpty();
         }
     }
 }

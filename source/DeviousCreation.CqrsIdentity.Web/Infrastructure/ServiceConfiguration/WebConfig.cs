@@ -21,7 +21,7 @@ namespace DeviousCreation.CqrsIdentity.Web.Infrastructure.ServiceConfiguration
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddFluentValidation(fv =>
                 {
-                    fv.RegisterValidatorsFromAssemblyContaining<Register.Validator>();
+                    fv.RegisterValidatorsFromAssemblyContaining<SignIn.Validator>();
                     fv.ImplicitlyValidateChildProperties = true;
                 })
                 .AddFeatureFolders()

@@ -9,11 +9,12 @@ module.exports = {
     entry: {
         app:  ['./Resources/Styles/app.sass', './Resources/Scripts/app.ts'],
         theme: ['./Resources/Styles/theme.sass'],
-        vendor: ['./Resources/Styles/vendor.sass'],
         'profile-auth-app': './Resources/Scripts/pages/profile-auth-app.ts',
         'user-listing': './Resources/Scripts/pages/users-list.ts',
         'role-listing': './Resources/Scripts/pages/role-listing.ts',
         'role-creation': './Resources/Scripts/pages/role-creation.ts',
+        'role-edit': './Resources/Scripts/pages/role-edit.ts',
+        'mfa-selection': './Resources/Scripts/pages/mfa-selection.ts',
         'login-device-verification': './Resources/Scripts/pages/login-device-verification.ts'
     },
     devtool: 'inline-source-map',

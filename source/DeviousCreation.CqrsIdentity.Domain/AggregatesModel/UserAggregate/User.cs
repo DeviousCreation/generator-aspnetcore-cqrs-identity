@@ -11,20 +11,19 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
 {
     public sealed class User : Entity, IUser
     {
-        private readonly List<SecurityTokenMapping> _securityTokenMappings;
+        private readonly List<AuthenticatorApp> _authenticatorApps;
+        private readonly List<AuthenticatorDevice> _authenticatorDevices;
         private readonly List<PasswordHistory> _passwordHistories;
+        private readonly List<SecurityTokenMapping> _securityTokenMappings;
         private readonly List<SignInHistory> _signInHistories;
         private readonly List<UserRole> _userRoles;
 
-        private readonly List<AuthenticatorApp> _authenticatorApps;
-        private readonly List<AuthenticatorDevice> _authenticatorDevices;
-
-        public User(Guid id, string emailAddress, string username, string passwordHash, bool isLockable, bool isAdmin, DateTime whenCreated)
+        public User(Guid id, string emailAddress, string passwordHash, bool isLockable, bool isAdmin,
+            DateTime whenCreated)
             : this()
         {
             this.Id = id;
             this.EmailAddress = emailAddress;
-            this.Username = username;
             this.PasswordHash = passwordHash;
             this.IsLockable = isLockable;
             this.IsAdmin = isAdmin;
@@ -41,9 +40,9 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
             this._authenticatorDevices = new List<AuthenticatorDevice>();
         }
 
-        public string EmailAddress { get; private set; }
+        public bool IsAdmin { get; private set; }
 
-        public string Username { get; private set; }
+        public string EmailAddress { get; private set; }
 
         public string PasswordHash { get; private set; }
 
@@ -54,7 +53,6 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
         public DateTime? WhenPasswordChanged { get; private set; }
 
         public bool IsLockable { get; private set; }
-        public bool IsAdmin { get; private set; }
 
         public int SignInAttempts { get; private set; }
 
@@ -66,7 +64,8 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
 
         public Profile Profile { get; private set; }
 
-        public IReadOnlyCollection<SecurityTokenMapping> SecurityTokenMappings => this._securityTokenMappings.AsReadOnly();
+        public IReadOnlyCollection<SecurityTokenMapping> SecurityTokenMappings =>
+            this._securityTokenMappings.AsReadOnly();
 
         public IReadOnlyCollection<PasswordHistory> PasswordHistories => this._passwordHistories.AsReadOnly();
 
@@ -78,7 +77,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
 
         public IReadOnlyCollection<AuthenticatorDevice> AuthenticatorDevices => this._authenticatorDevices.AsReadOnly();
 
-        public DateTime WhenCreated { get; private set; }
+        public DateTime WhenCreated { get; }
 
         public Guid SecurityStamp { get; private set; }
 
@@ -213,8 +212,6 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
                 this.AddDomainEvent(new UserEmailChangeEvent(this.Id, this.EmailAddress));
                 this.EmailAddress = emailAddress;
             }
-            
-
         }
 
         public AuthenticatorApp EnrollAuthenticatorApp(Guid id, string key, DateTime whenEnrolled)
@@ -229,16 +226,29 @@ namespace DeviousCreation.CqrsIdentity.Domain.AggregatesModel.UserAggregate
             this._authenticatorApps.Single(x => x.WhenRevoked == null).RevokeApp(whenRevoked);
         }
 
-        public AuthenticatorDevice EnrollAuthenticatorDevice(Guid id, DateTime whenEnrolled, byte[] publicKey, byte[] credentialId, Guid aaguid, int counter, string name, string credType)
+        public AuthenticatorDevice EnrollAuthenticatorDevice(Guid id, DateTime whenEnrolled, byte[] publicKey,
+            byte[] credentialId, Guid aaguid, int counter, string name, string credType)
         {
-            var authenticatorDevice = new AuthenticatorDevice(id, whenEnrolled, publicKey, credentialId,aaguid, counter, name, credType);
+            var authenticatorDevice = new AuthenticatorDevice(id, whenEnrolled, publicKey, credentialId, aaguid,
+                counter, name, credType);
             this._authenticatorDevices.Add(authenticatorDevice);
             return authenticatorDevice;
         }
 
         public void SetRoles(IReadOnlyList<Guid> roles)
         {
+            this._userRoles.Clear();
             this._userRoles.AddRange(roles.Select(x => new UserRole(x)));
+        }
+
+        public void SetAdminStatus(bool isAdmin)
+        {
+            this.IsAdmin = isAdmin;
+        }
+
+        public void SetLockableStatus(bool isLockable)
+        {
+            this.IsLockable = isLockable;
         }
     }
 }

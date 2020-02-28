@@ -2,6 +2,12 @@ import {ArrayHelpers} from '../helpers/array-helper'
 
 export class LoginDeviceVerification {
     async init() {
+        const contextThis = this;
+        document.getElementById('start-verification').addEventListener('submit', (e) => contextThis.startVerification(e))
+    }
+
+    private async startVerification(e: Event) {
+        e.preventDefault();
         let makeAssertionOptions;
         try {
             var res = await fetch('/api/auth-device/assertion-options', {

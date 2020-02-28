@@ -247,5 +247,36 @@ GROUP BY
 
             return await this.GetSystemProfileByUserId(currentUserMaybe.Value.UserId, cancellationToken);
         }
+
+        public async Task<Maybe<DetailedUser>> GetUserDetailsForEditUserId(Guid userId, CancellationToken cancellationToken)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("userId", userId, DbType.Guid);
+
+            var command = new CommandDefinition(
+                "SELECT u.Username, u.EmailAddress, u.IsAdmin, u.IsLockable, p.FirstName, p.LastName FROM[Identity].[User] u LEFT JOIN[Identity].[Profile] p ON u.Id = p.UserId Where u.Id = @userId;" +
+                "SELECT uR.RoleId FROM [Identity].[UserRole] uR WHERE uR.UserId = @userId;",
+                parameters,
+                cancellationToken: cancellationToken);
+
+            using var connection = this._dbConnectionProvider.Connection;
+            connection.Open();
+
+            var res = await connection.QueryMultipleAsync(command);
+            var detailedUseResult = await res.ReadAsync<DetailedUserDto>();
+            var dtos = detailedUseResult as DetailedUserDto[] ?? detailedUseResult.ToArray();
+            if (dtos.Length != 1)
+            {
+                return Maybe<DetailedUser>.Nothing;
+            }
+
+            var entity = dtos.Single();
+
+            var resourceResult = await res.ReadAsync<Guid>();
+
+            return Maybe.From(
+                new DetailedUser(entity.Username, entity.EmailAddress, entity.IsAdmin, entity.FirstName, entity.LastName, entity.IsLockable,
+                    resourceResult.ToList()));
+        }
     }
 }

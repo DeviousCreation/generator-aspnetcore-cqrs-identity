@@ -1,0 +1,56 @@
+﻿@page
+@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery AntiForgery;
+@using DeviousCreation.CqrsIdentity.Web.Infrastructure.Constants
+@model DeviousCreation.CqrsIdentity.Web.Pages.Auth.DeviceVerification
+@{
+}
+<section id="wrapper" class="login-register login-sidebar" style="background-image:url(https://picsum.photos/1920/1080);">
+    <div class="login-box card">
+        <div class="card-body">
+            <form class="form-horizontal form-material" method="post" id="start-verification">
+                <a href="#" class="text-center d-block"><img src="~/myci-logo-100.png" alt="Home" /></a>
+                <h4 class="rounded-title mt-4 mb-0">Insert your security key</h4>
+                <small>When you are ready to authenticate, press the button below.</small>
+                <div class="form-group text-center mt-3">
+                    <div class="col-xs-12">
+                        <button class="btn btn-info btn-md btn-block text-uppercase waves-effect waves-light">Use security key</button>
+                    </div>
+                </div>
+            </form>
+            <hr />
+            <p>Or select a different method</p>
+            <div class="message-box contact-box">
+
+                <div class="message-widget contact-widget">
+                    <!-- Message -->
+                    <a asp-page="@(PageLocations.Auth_RemoteVerification)" asp-page-handler="SendEmail" data-postable="@AntiForgery.GetAndStoreTokens(HttpContext).RequestToken">
+                        <div class="user-img">
+                            <span class="round"><i class="icon-mail"></i></span>
+                        </div>
+                        <div class="mail-contnet">
+                            <h5>Email</h5> <span class="mail-desc">&nbsp;</span>
+                        </div>
+                    </a>
+
+                    @if (this.Model.HasAuthApp)
+                    {
+                        <a asp-page="@(PageLocations.Auth_AppVerification)">
+                            <div class="user-img">
+                                <span class="round"><i class="icon-lock"></i></span>
+                            </div>
+                            <div class="mail-contnet">
+                                <h5>Authenticator App</h5> <span class="mail-desc">&nbsp;</span>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script src="~/login-device-verification.js" asp-append-version="true"></script>
+}

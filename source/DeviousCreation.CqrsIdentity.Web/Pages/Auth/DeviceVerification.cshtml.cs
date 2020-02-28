@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Queries.Contracts;
 using JetBrains.Annotations;
@@ -9,11 +8,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace DeviousCreation.CqrsIdentity.Web.Pages.Auth
 {
     [Authorize(AuthenticationSchemes = "login-partial")]
-    public class MfaSelection : PageModel
+    public class DeviceVerification : PageModel
     {
         private readonly IUserQueries _userQueries;
 
-        public MfaSelection([NotNull] IUserQueries userQueries)
+        public DeviceVerification([NotNull] IUserQueries userQueries)
         {
             this._userQueries = userQueries ?? throw new ArgumentNullException(nameof(userQueries));
         }
@@ -24,9 +23,9 @@ namespace DeviousCreation.CqrsIdentity.Web.Pages.Auth
 
         public bool HasMobile { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGet()
         {
-            var result = await this._userQueries.GetMfaMethodStatusForCurrentUser(CancellationToken.None);
+            var result = await this._userQueries.GetMfaMethodStatusForCurrentUser();
 
             this.HasMobile = result.HasMobile;
             this.HasAuthApp = result.HasAuthApp;

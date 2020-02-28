@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using DeviousCreation.CqrsIdentity.Queries.Contracts;
@@ -14,12 +15,12 @@ namespace DeviousCreation.CqrsIdentity.Web.Infrastructure.Contracts
 {
     public interface IAuthenticationService
     {
-        Task SignInPartial(Guid userId, string pageLockedTo, bool passwordExpired = false);
+        Task SignInPartial(Guid userId, string returnUrl, bool passwordExpired = false);
         Task SignOutPartial();
 
         Task SignIn(Guid userId);
         Task SignOut();
-        Task SignInFromPartial();
+        Task<string> SignInFromPartial();
     }
 
     public class AuthenticationService : IAuthenticationService
@@ -33,7 +34,7 @@ namespace DeviousCreation.CqrsIdentity.Web.Infrastructure.Contracts
             this._userQueries = userQueries;
         }
 
-        public async Task SignInPartial(Guid userId, string pageLockedTo, bool passwordExpired = false)
+        public async Task SignInPartial(Guid userId, string returnUrl, bool passwordExpired = false)
         {
             await this.SignOutPartial();
 
@@ -41,11 +42,17 @@ namespace DeviousCreation.CqrsIdentity.Web.Infrastructure.Contracts
             {
                 new Claim(ClaimTypes.Upn, userId.ToString()),
             };
-            claims.Add(new Claim("pageLockedTo", pageLockedTo));
+           
             if (passwordExpired)
             {
-                claims.Add(new Claim("passwordExpired", "1"));
+                claims.Add(new Claim(ClaimTypes.Expired, "1"));
             }
+
+            if (!string.IsNullOrWhiteSpace(returnUrl))
+            {
+                claims.Add(new Claim(ClaimTypes.UserData, returnUrl));
+            }
+
             await _httpContextAccessor.HttpContext.SignInAsync("login-partial", new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme)));
         }
 
@@ -120,14 +127,22 @@ namespace DeviousCreation.CqrsIdentity.Web.Infrastructure.Contracts
             await this._httpContextAccessor.HttpContext.SignOutAsync();
         }
 
-        public async Task SignInFromPartial()
+        public async Task<string> SignInFromPartial()
         {
             var userId = Guid.Parse(this._httpContextAccessor.HttpContext.User.Claims
                 .Single(x => x.Type == ClaimTypes.Upn).Value);
+            var returnUrl = "";
+            if (this._httpContextAccessor.HttpContext.User.HasClaim(x => x.Type == ClaimTypes.UserData))
+            {
+                returnUrl = this._httpContextAccessor.HttpContext.User.Claims.Single(x => x.Type == ClaimTypes.UserData)
+                    .Value;
+            }
             
             await this.SignOutPartial();
 
             await this.SignIn(userId);
+
+            return returnUrl;
         }
     }
 }

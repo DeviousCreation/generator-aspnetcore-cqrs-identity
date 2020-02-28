@@ -8,11 +8,11 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate
 {
     public sealed class RequestAccountVerificationCommand : IRequest<ResultWithError<ErrorData>>
     {
-        public RequestAccountVerificationCommand(string credential)
+        public RequestAccountVerificationCommand(string emailAddress)
         {
-            this.Credential = credential;
+            this.EmailAddress = emailAddress;
         }
 
-        public string Credential { get; }
+        public string EmailAddress { get; }
     }
 }

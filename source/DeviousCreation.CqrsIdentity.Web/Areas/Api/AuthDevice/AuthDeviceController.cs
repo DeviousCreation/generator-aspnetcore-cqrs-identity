@@ -13,10 +13,8 @@ using JetBrains.Annotations;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Newtonsoft.Json;
 
-namespace DeviousCreation.CqrsIdentity.Web.Areas.Api.Features.AuthDevice
+namespace DeviousCreation.CqrsIdentity.Web.Areas.Api.AuthDevice
 {
     [Area("Api")]
     public class AuthDeviceController : Controller
@@ -175,10 +173,10 @@ namespace DeviousCreation.CqrsIdentity.Web.Areas.Api.Features.AuthDevice
                 if (result.IsSuccess)
                 {
                     await this._authenticationService.SignInFromPartial();
-                return Json(result.Value.AssertionVerificationResult);
+                return this.Json(result.Value.AssertionVerificationResult);
                 }
 
-                return Json(new AssertionVerificationResult { Status = "error" });
+                return this.Json(new AssertionVerificationResult { Status = "error" });
             
         }
 

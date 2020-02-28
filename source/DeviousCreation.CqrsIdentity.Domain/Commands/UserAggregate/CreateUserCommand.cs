@@ -12,10 +12,9 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate
     {
         private readonly List<Guid> _roles;
 
-        public CreateUserCommand(string emailAddress, string username, bool isLockable, bool isAdmin, List<Guid> roles)
+        public CreateUserCommand(string emailAddress, bool isLockable, bool isAdmin, List<Guid> roles)
         {
             this.EmailAddress = emailAddress;
-            this.Username = username;
             this.IsLockable = isLockable;
             this.IsAdmin = isAdmin;
             if (roles == null)
@@ -30,8 +29,6 @@ namespace DeviousCreation.CqrsIdentity.Domain.Commands.UserAggregate
 
 
         public string EmailAddress { get; }
-
-        public string Username { get; }
 
         public bool IsLockable { get; }
 

@@ -1,8 +1,10 @@
 ﻿@using DeviousCreation.CqrsIdentity.Core.Settings
+@using DeviousCreation.CqrsIdentity.Web.Pages.App.UserManagement.Users
 @using Microsoft.Extensions.Options
 @inject IOptions<SiteSettings> SiteSettings
 @{
     var siteName = ViewData["Title"] != null ? $"{ViewData["Title"]} | {SiteSettings.Value.Name}" : SiteSettings.Value.Name;
+    
 }
 <!DOCTYPE html>
 <html>
@@ -17,15 +19,18 @@
 </head>
 @RenderSection("styles", false)
 <body class="fix-header fix-sidebar card-no-border">
-    @*<div class="preloader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
-            </svg>
-        </div>*@
-    @RenderBody()
-    <script type="text/javascript" src="~/vendors.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="~/commons.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="~/app.js" asp-append-version="true"></script>
-    @RenderSection("scripts", false)
+
+@if (ViewData["PageNotifications"] is IReadOnlyList<NotificationPageModel.PageNotification> notifications)
+{
+    foreach (var pageNotification in notifications)
+    {
+        <span data-page-notification data-title="@pageNotification.Title" data-message="@pageNotification.Message"></span>
+    }
+}
+@RenderBody()
+<script type="text/javascript" src="~/vendors.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/commons.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/app.js" asp-append-version="true"></script>
+@RenderSection("scripts", false)
 </body>
 </html>

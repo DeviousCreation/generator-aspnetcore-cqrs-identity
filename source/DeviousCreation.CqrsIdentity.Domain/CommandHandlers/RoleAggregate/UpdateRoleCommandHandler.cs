@@ -13,18 +13,18 @@ using ResultMonad;
 
 namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.RoleAggregate
 {
-    public class UpdateRoleNameCommandHandler : IRequestHandler<UpdateRoleNameCommand, ResultWithError<ErrorData>>
+    public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, ResultWithError<ErrorData>>
     {
         private readonly IRoleRepository _roleRepository;
         private readonly IRoleQueries _roleQueries;
 
-        public UpdateRoleNameCommandHandler(IRoleRepository roleRepository, IRoleQueries roleQueries)
+        public UpdateRoleCommandHandler(IRoleRepository roleRepository, IRoleQueries roleQueries)
         {
             this._roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
             this._roleQueries = roleQueries ?? throw new ArgumentNullException(nameof(roleQueries));
         }
 
-        public async Task<ResultWithError<ErrorData>> Handle(UpdateRoleNameCommand request, CancellationToken cancellationToken)
+        public async Task<ResultWithError<ErrorData>> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
         {
             var result = await this.Process(request, cancellationToken);
             var dbResult = await this._roleRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
@@ -38,7 +38,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.RoleAggregate
             return result;
         }
 
-        private async Task<ResultWithError<ErrorData>> Process(UpdateRoleNameCommand request, CancellationToken cancellationToken)
+        private async Task<ResultWithError<ErrorData>> Process(UpdateRoleCommand request, CancellationToken cancellationToken)
         {
             var presenceResult = await this._roleQueries.CheckForPresenceOfRoleByNameWithIdExclusion(request.Name, request.RoleId, cancellationToken);
             if (presenceResult.IsPresent)
@@ -55,6 +55,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.RoleAggregate
             var role = roleMaybe.Value;
 
             role.UpdateName(request.Name);
+            role.SetResources(request.Resources);
 
             this._roleRepository.Update(role);
 

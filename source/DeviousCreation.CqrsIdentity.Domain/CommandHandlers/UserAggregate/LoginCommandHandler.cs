@@ -60,7 +60,7 @@ namespace DeviousCreation.CqrsIdentity.Domain.CommandHandlers.UserAggregate
             LoginCommand request, CancellationToken cancellationToken)
         {
             var whenHappened = this._clock.GetCurrentInstant().ToDateTimeUtc();
-            var userMaybe = await this._userRepository.FindByUsername(request.Credential, cancellationToken);
+            var userMaybe = await this._userRepository.FindByEmailAddress(request.EmailAddress, cancellationToken);
             
 
             if (userMaybe.HasNoValue)

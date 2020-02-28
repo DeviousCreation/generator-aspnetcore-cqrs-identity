@@ -42,10 +42,18 @@
         <div class="scroll-sidebar">
             <!-- Sidebar navigation-->
             <nav class="sidebar-nav">
-                <ul id="sidebarnav">
-                    <li>
-                        <a  asp-page="/Dashboard/Users/Index" class="waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Users</span></a>
-                    </li>
+                <ul  class="metismenu" id="sidebarnav">
+                <li>
+                    <a href="#" class="has-arrow">User Management</a>
+                    <ul>
+                        <li>
+                            <a asp-page="/App/Users/Index">Users</a>
+                        </li>
+                        <li>
+                            <a asp-page="/App/Roles/Index">Roles</a>
+                        </li>
+                    </ul>
+                </li>
                 </ul>
             </nav>
             <!-- End Sidebar navigation -->
